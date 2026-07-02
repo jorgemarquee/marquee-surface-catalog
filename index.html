@@ -1890,6 +1890,179 @@
     .category-nav-label { font-size: 12px !important; letter-spacing: 2px !important; }
     .category-nav-btn.active::after { left: 14px; right: 14px; }
   }
+
+  /* Design Inquiry scroll fix — quote-builder is flex container with internal scroll */
+  .quote-builder {
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 90vh !important;
+    max-height: 90dvh !important;
+    overflow: hidden !important;
+  }
+  .quote-scroll {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    padding: 32px 36px 32px !important;
+  }
+  @media (max-width: 768px) {
+    .quote-builder {
+      max-height: 92vh !important;
+      max-height: 92dvh !important;
+    }
+    .quote-scroll {
+      padding: 32px 22px 24px !important;
+    }
+  }
+  /* Ensure quote form doesn't overflow horizontally */
+  .quote-scroll .quote-form { max-width: 100% !important; }
+  .quote-scroll .quote-form input,
+  .quote-scroll .quote-form textarea { max-width: 100% !important; box-sizing: border-box !important; }
+
+
+  /* Option E: Breadcrumb bar persistente */
+  .breadcrumb-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #e8e0d0;
+    padding: 18px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .breadcrumb {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+  .breadcrumb-item {
+    color: #a89a80;
+    background: transparent;
+    border: none;
+    padding: 4px 2px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.18s ease;
+  }
+  .breadcrumb-item:hover { color: #1d3045; }
+  .breadcrumb-item.current {
+    color: #1d3045;
+    font-weight: 600;
+    cursor: default;
+  }
+  .breadcrumb-sep {
+    color: #d6d2c7;
+    font-weight: 300;
+    font-size: 13px;
+    user-select: none;
+  }
+  /* Contextual title bar (categoría con contador) */
+  .contextual-title-bar {
+    background: #faf8f4;
+    padding: 32px 24px 24px;
+    border-bottom: 1px solid #e8e0d0;
+  }
+  .contextual-title-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .contextual-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #1d3045;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .contextual-title-meta {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #a89a80;
+    font-weight: 500;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  /* Ocultar el category-nav original (Countertops/Flooring buttons) — reemplazado por breadcrumb */
+  .category-nav { display: none !important; }
+  /* Ocultar el CTA banner entre categorías */
+  .category-cta-banner { display: none !important; }
+  @media (max-width: 768px) {
+    .breadcrumb-bar { padding: 14px 20px; }
+    .breadcrumb { font-size: 10px; letter-spacing: 2px; }
+    .breadcrumb-item { font-size: 10px; letter-spacing: 2px; }
+    .contextual-title-bar { padding: 24px 20px 20px; }
+    .contextual-title { font-size: 22px; }
+    .contextual-title-inner { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* Level-1 category toggle — sits above breadcrumb for switching between main categories */
+  .category-toggle-bar {
+    background: #ffffff;
+    border-bottom: 1px solid #f0ead9;
+    padding: 20px 24px 4px;
+  }
+  .category-toggle {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .category-toggle-item {
+    background: transparent;
+    border: none;
+    padding: 10px 24px;
+    color: #a89a80;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s ease;
+    font-family: inherit;
+  }
+  .category-toggle-item:hover { color: #1d3045; }
+  .category-toggle-item.active {
+    color: #1d3045;
+    font-weight: 600;
+  }
+  .category-toggle-item.active::after {
+    content: "";
+    position: absolute;
+    left: 24px; right: 24px;
+    bottom: 2px;
+    height: 1.5px;
+    background: #c8a24a;
+  }
+  .category-toggle-sep {
+    color: #d6d2c7;
+    font-weight: 300;
+    font-size: 14px;
+    user-select: none;
+    padding: 0 4px;
+  }
+  @media (max-width: 768px) {
+    .category-toggle-bar { padding: 16px 20px 2px; }
+    .category-toggle-item { padding: 8px 16px; font-size: 11px; letter-spacing: 2.2px; }
+    .category-toggle-item.active::after { left: 16px; right: 16px; }
+  }
 </style>
 </head>
 <body>
@@ -1915,6 +2088,33 @@
     </div>
   </div>
 </div>
+
+<div class="category-toggle-bar">
+  <nav class="category-toggle" aria-label="Main categories">
+    <button class="category-toggle-item active" id="toggleCountertops" onclick="switchView('slabs')">Countertops / Slabs</button>
+    <span class="category-toggle-sep">·</span>
+    <button class="category-toggle-item" id="toggleFlooring" onclick="switchView('tiles')">Flooring</button>
+  </nav>
+</div>
+<div class="breadcrumb-bar">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <button class="breadcrumb-item" onclick="switchView('slabs')" data-crumb="root">Marquee</button>
+    <span class="breadcrumb-sep">/</span>
+    <span id="crumbCategory" class="breadcrumb-item current">Countertops / Slabs</span>
+    <span class="breadcrumb-sep breadcrumb-sub-sep" id="crumbSubSep" style="display:none;">/</span>
+    <span id="crumbSub" class="breadcrumb-item current" style="display:none;"></span>
+  </nav>
+</div>
+<div class="contextual-title-bar">
+  <div class="contextual-title-inner">
+    <div>
+      <div id="contextualTitle" class="contextual-title">Porcelain Slabs</div>
+      <div id="contextualMeta" class="contextual-title-meta">Countertops · Feature Walls</div>
+    </div>
+  </div>
+</div>
+
+
 
 <div class="trust-band">
   <div class="trust-band-inner">
@@ -2486,9 +2686,11 @@ function openQuoteBuilder() {
   }
   document.getElementById("quoteModal").innerHTML =
     '<button class="modal-close" id="quoteCloseBtn">&times;</button>' +
+    '<div class="modal-scroll quote-scroll">' +
     '<h2>Design Inquiry</h2>' +
-    '<div style="color:#9aa3b8;font-size:13px;">'+items.length+' item'+(items.length===1?'':'s')+' selected</div>' +
-    body;
+    '<div style="color:#8a8a8a;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">'+items.length+' item'+(items.length===1?'':'s')+' selected</div>' +
+    body +
+    '</div>';
   document.getElementById("quoteBackdrop").classList.add("open");
   document.getElementById("quoteCloseBtn").onclick = () => document.getElementById("quoteBackdrop").classList.remove("open");
   document.querySelectorAll('[data-remove]').forEach(b => {
@@ -2555,7 +2757,10 @@ function generateInquiryRef() {
 }
 
 function showInquiryConfirmation(data) {
-  const modal = document.getElementById("quoteModal");
+  const modal =
+    '<div class="modal-scroll quote-scroll">' +
+    document.getElementById("quoteModal") +
+    '</div>';
   modal.innerHTML =
     '<div class="inquiry-confirmation">' +
       '<div class="inquiry-confirmation-icon">' +
@@ -2676,16 +2881,24 @@ function switchView(view) {
   const ctaToTiles = document.getElementById("ctaBannerToTiles");
   const ctaBack = document.getElementById("ctaBannerBack");
   const navBtns = document.querySelectorAll(".category-nav-btn");
+  const toggleCountertops = document.getElementById("toggleCountertops");
+  const toggleFlooring = document.getElementById("toggleFlooring");
+  if (toggleCountertops && toggleFlooring) {
+    toggleCountertops.classList.toggle("active", view === "slabs");
+    toggleFlooring.classList.toggle("active", view === "tiles");
+  }
   if (view === "tiles") {
     slabsSection.style.display = "none";
     ctaToTiles.style.display = "none";
     tilesSection.style.display = "";
     ctaBack.style.display = "";
+    updateBreadcrumb("Flooring", "Tiles", "SyncStone Collection", "Porcelain tiles for floors and bathroom walls");
   } else {
     slabsSection.style.display = "";
     ctaToTiles.style.display = "";
     tilesSection.style.display = "none";
     ctaBack.style.display = "none";
+    updateBreadcrumb("Countertops / Slabs", null, "Porcelain Slabs", "Countertops · Feature Walls");
   }
   navBtns.forEach(b => b.classList.toggle("active", b.dataset.view === view));
   // Repopulate color filter with colors relevant to the new view
@@ -2865,6 +3078,32 @@ document.addEventListener("DOMContentLoaded", () => {
   // Expose for openModal to set the current product
   window.__setLightboxProduct = function(p) { window.__currentModalProduct = p; };
 })();
+
+
+
+// Option E: dynamic breadcrumb and contextual title updater
+function updateBreadcrumb(category, sub, title, meta) {
+  const crumbCat = document.getElementById("crumbCategory");
+  const crumbSub = document.getElementById("crumbSub");
+  const crumbSubSep = document.getElementById("crumbSubSep");
+  const contextTitle = document.getElementById("contextualTitle");
+  const contextMeta = document.getElementById("contextualMeta");
+  if (crumbCat) crumbCat.textContent = category;
+  if (sub) {
+    if (crumbSub) { crumbSub.textContent = sub; crumbSub.style.display = ""; }
+    if (crumbSubSep) crumbSubSep.style.display = "";
+  } else {
+    if (crumbSub) crumbSub.style.display = "none";
+    if (crumbSubSep) crumbSubSep.style.display = "none";
+  }
+  if (contextTitle) contextTitle.textContent = title;
+  if (contextMeta) contextMeta.textContent = meta;
+}
+
+// Initialize breadcrumb on page load (default: slabs view)
+if (typeof updateBreadcrumb === "function") {
+  updateBreadcrumb("Countertops / Slabs", null, "Porcelain Slabs", "Countertops · Feature Walls");
+}
 
 </script>
 </body>
