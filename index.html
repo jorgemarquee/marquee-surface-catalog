@@ -1584,6 +1584,29 @@
     .quote-item-meta { font-size: 11px !important; }
     .quote-item-remove { padding: 6px 10px !important; font-size: 11px !important; }
   }
+
+  /* Hero image: responsive to viewport, never crops behind sticky CTA */
+  .photo-gallery-hero .photo-main {
+    aspect-ratio: auto !important;
+    max-height: 55vh !important;
+    min-height: 240px !important;
+    height: auto !important;
+  }
+  .photo-gallery-hero .photo-main img {
+    max-height: 55vh !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+  }
+  @media (max-width: 768px) {
+    .photo-gallery-hero .photo-main {
+      max-height: 42vh !important;
+      min-height: 180px !important;
+    }
+    .photo-gallery-hero .photo-main img {
+      max-height: 42vh !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -2043,13 +2066,23 @@ function openModal(sku) {
 
   // Gallery thumb clicks — swap main photo + deactivate variant tabs
   document.querySelectorAll(".photo-thumb").forEach(t => {
-    t.onclick = () => {
-      galleryIndex = parseInt(t.dataset.photoIdx);
+    t.addEventListener("click", function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      const idx = parseInt(t.dataset.photoIdx);
+      if (isNaN(idx) || !p.photos || !p.photos[idx]) return;
+      galleryIndex = idx;
       document.querySelectorAll(".photo-thumb").forEach(x => x.classList.remove("active"));
       t.classList.add("active");
-      document.querySelectorAll(".variant-tab").forEach(x => x.classList.remove("active"));
-      document.getElementById("galleryMain").src = "data:image/jpeg;base64," + p.photos[galleryIndex];
-    };
+      const mainImg = document.getElementById("galleryMain");
+      if (mainImg) {
+        mainImg.src = "data:image/jpeg;base64," + p.photos[idx];
+      }
+    });
+    // Also handle touch events for iOS Safari edge cases
+    t.addEventListener("touchend", function(e) {
+      e.stopPropagation();
+    }, { passive: true });
   });
   // Variant tab clicks — swap the main photo to the variant
   document.querySelectorAll(".variant-tab").forEach(c => {
