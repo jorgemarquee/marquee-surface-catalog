@@ -1585,27 +1585,122 @@
     .quote-item-remove { padding: 6px 10px !important; font-size: 11px !important; }
   }
 
-  /* Hero image: responsive to viewport, never crops behind sticky CTA */
+  /* Hero image: proper 16:9 aspect ratio, natural browsing (CTA no longer sticky) */
   .photo-gallery-hero .photo-main {
-    aspect-ratio: auto !important;
-    max-height: 55vh !important;
-    min-height: 240px !important;
+    aspect-ratio: 16 / 9 !important;
+    max-height: none !important;
+    min-height: 0 !important;
     height: auto !important;
+    width: 100% !important;
+    overflow: hidden;
   }
   .photo-gallery-hero .photo-main img {
-    max-height: 55vh !important;
     width: 100% !important;
-    height: auto !important;
-    object-fit: contain !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: cover !important;
+  }
+
+  /* CTA is now inline at end of scroll, not sticky/fixed */
+  .modal-cta-bar {
+    position: static !important;
+    flex-shrink: 1 !important;
+    margin-top: 24px !important;
+    border-radius: 6px !important;
+    border: 1px solid #e8e0d0 !important;
+    border-top: 1px solid #e8e0d0 !important;
+  }
+  .modal-cta-soldout {
+    padding: 20px 22px !important;
+    display: flex; flex-direction: column; gap: 6px;
   }
   @media (max-width: 768px) {
-    .photo-gallery-hero .photo-main {
-      max-height: 42vh !important;
-      min-height: 180px !important;
+    .modal-cta-bar {
+      margin-top: 20px !important;
+      padding: 18px 22px calc(18px + env(safe-area-inset-bottom)) !important;
     }
-    .photo-gallery-hero .photo-main img {
-      max-height: 42vh !important;
+  }
+
+  /* Lightbox — fullscreen image viewer with swipe navigation */
+  .lightbox-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    z-index: 300;
+    display: none;
+    align-items: center; justify-content: center;
+    touch-action: pan-y;
+  }
+  .lightbox-backdrop.open { display: flex; }
+  .lightbox-content {
+    width: 100vw; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    padding: 40px 60px;
+    box-sizing: border-box;
+  }
+  .lightbox-img {
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: opacity 0.15s ease;
+  }
+  .lightbox-close {
+    position: absolute; top: 16px; right: 20px;
+    background: transparent; border: none; color: #ffffff;
+    font-size: 40px; line-height: 1; cursor: pointer;
+    padding: 8px 16px; z-index: 10;
+    font-weight: 300;
+  }
+  .lightbox-close:hover { color: #c8a24a; }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s ease;
+    z-index: 10;
+  }
+  .lightbox-nav:hover {
+    background: rgba(200, 162, 74, 0.9);
+    border-color: #c8a24a;
+  }
+  .lightbox-nav:disabled {
+    opacity: 0.25; cursor: default;
+  }
+  .lightbox-nav-prev { left: 20px; }
+  .lightbox-nav-next { right: 20px; }
+  .lightbox-counter {
+    position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px; letter-spacing: 2px;
+    padding: 6px 16px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  /* Make hero image tappable */
+  .photo-gallery-hero .photo-main {
+    cursor: zoom-in;
+  }
+  .photo-gallery-hero .photo-main img {
+    cursor: zoom-in;
+  }
+  @media (max-width: 768px) {
+    .lightbox-content { padding: 12px; }
+    .lightbox-close { top: 8px; right: 10px; font-size: 36px; padding: 6px 12px; }
+    .lightbox-nav {
+      width: 44px; height: 44px; font-size: 20px;
     }
+    .lightbox-nav-prev { left: 8px; }
+    .lightbox-nav-next { right: 8px; }
+    .lightbox-counter { bottom: 16px; font-size: 12px; }
   }
 </style>
 </head>
@@ -1719,6 +1814,17 @@
 
 <div class="modal-backdrop" id="modalBackdrop"><div class="modal" id="modal"></div></div>
 <div class="modal-backdrop" id="quoteBackdrop"><div class="modal quote-builder" id="quoteModal"></div></div>
+
+<div class="lightbox-backdrop" id="lightboxBackdrop">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-nav-prev" id="lightboxPrev" aria-label="Previous">&#8249;</button>
+  <button class="lightbox-nav lightbox-nav-next" id="lightboxNext" aria-label="Next">&#8250;</button>
+  <div class="lightbox-content" id="lightboxContent">
+    <img class="lightbox-img" id="lightboxImg" alt="">
+  </div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
 
 <div class="modal-backdrop" id="pwBackdrop">
   <div class="pw-modal">
@@ -2011,6 +2117,7 @@ function openModal(sku) {
   galleryIndex = 0;
   const p = products.find(x => x.sku === sku);
   if (!p) return;
+  window.__setLightboxProduct(p);
   const so = soldOutSet.has(sku);
   const inCart = !!quoteCart[sku];
   const currentQty = inCart ? quoteCart[sku].qty : 20;
@@ -2059,8 +2166,8 @@ function openModal(sku) {
       buildGalleryThumbs(p) +
       '<div class="quote-help">Estimated quantities only — final pricing and stock confirmation by Marquee Surface team.</div>' +
       (isAdmin ? '<div style="margin-top:18px;text-align:right;"><button class="btn '+(so?"btn-admin":"")+'" id="toggleSoldOutBtn">'+(so ? "Mark as Available" : "Mark as Sold Out")+'</button></div>' : "") +
-    '</div>' +
-    ctaBar;
+      ctaBar +
+    '</div>';
   document.getElementById("modalBackdrop").classList.add("open");
   document.getElementById("modalCloseBtn").onclick = closeModal;
 
@@ -2467,6 +2574,101 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
     }
   });
+})();
+
+
+// Lightbox — fullscreen viewer with swipe navigation between product photos
+(function() {
+  let lbIndex = 0;
+  let lbPhotos = [];
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  function openLightbox(startIdx) {
+    const currentProduct = window.__currentModalProduct;
+    if (!currentProduct || !currentProduct.photos || currentProduct.photos.length === 0) return;
+    lbPhotos = currentProduct.photos;
+    lbIndex = startIdx || 0;
+    renderLightbox();
+    document.getElementById("lightboxBackdrop").classList.add("open");
+    document.body.classList.add("modal-open");
+  }
+
+  function closeLightbox() {
+    document.getElementById("lightboxBackdrop").classList.remove("open");
+    // Restore body scroll lock only if the underlying modal is still open
+    const modalOpen = document.querySelectorAll(".modal-backdrop.open").length > 0;
+    if (!modalOpen) {
+      document.body.classList.remove("modal-open");
+    }
+  }
+
+  function renderLightbox() {
+    if (!lbPhotos[lbIndex]) return;
+    const img = document.getElementById("lightboxImg");
+    img.style.opacity = "0";
+    setTimeout(function() {
+      img.src = "data:image/jpeg;base64," + lbPhotos[lbIndex];
+      img.style.opacity = "1";
+    }, 60);
+    document.getElementById("lightboxCounter").textContent = (lbIndex + 1) + " / " + lbPhotos.length;
+    document.getElementById("lightboxPrev").disabled = (lbIndex === 0);
+    document.getElementById("lightboxNext").disabled = (lbIndex === lbPhotos.length - 1);
+    // Sync PDP hero + active thumb
+    const mainImg = document.getElementById("galleryMain");
+    if (mainImg) mainImg.src = "data:image/jpeg;base64," + lbPhotos[lbIndex];
+    document.querySelectorAll(".photo-thumb").forEach(function(x, i) {
+      x.classList.toggle("active", i === lbIndex);
+    });
+    if (typeof galleryIndex !== "undefined") { galleryIndex = lbIndex; }
+  }
+
+  function next() { if (lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); } }
+  function prev() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const bd = document.getElementById("lightboxBackdrop");
+    if (!bd) return;
+
+    document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+    document.getElementById("lightboxPrev").addEventListener("click", function(e) { e.stopPropagation(); prev(); });
+    document.getElementById("lightboxNext").addEventListener("click", function(e) { e.stopPropagation(); next(); });
+    bd.addEventListener("click", function(e) { if (e.target === bd) closeLightbox(); });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", function(e) {
+      if (!bd.classList.contains("open")) return;
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+    });
+
+    // Swipe navigation (mobile)
+    const content = document.getElementById("lightboxContent");
+    content.addEventListener("touchstart", function(e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    content.addEventListener("touchend", function(e) {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) next(); else prev();
+      }
+    }, { passive: true });
+
+    // Delegate: click on hero opens lightbox at current index
+    document.addEventListener("click", function(e) {
+      const heroContainer = e.target.closest(".photo-gallery-hero .photo-main");
+      if (heroContainer) {
+        e.stopPropagation();
+        openLightbox(typeof galleryIndex !== "undefined" ? galleryIndex : 0);
+      }
+    });
+  });
+
+  // Expose for openModal to set the current product
+  window.__setLightboxProduct = function(p) { window.__currentModalProduct = p; };
 })();
 
 </script>
