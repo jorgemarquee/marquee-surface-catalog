@@ -2614,6 +2614,106 @@
       flex-shrink: 0 !important;
     }
   }
+
+  /* PDP CTA bar visible fix — modal-scroll must have min-height: 0 to allow flex shrink */
+  #modal {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  #modal .modal-scroll {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  #modal .modal-cta-bar {
+    flex: 0 0 auto !important;
+    flex-shrink: 0 !important;
+    background: #faf8f4 !important;
+    border-top: 1px solid #e8e0d0 !important;
+    padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+  @media (max-width: 768px) {
+    #modal .modal-cta-bar {
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+    #modal .modal-cta-add {
+      padding: 14px 18px !important;
+      font-size: 15px !important;
+      min-height: 48px !important;
+    }
+  }
+
+
+  /* Flooring filter bar — 2 compact dropdowns replace long pill nav */
+  .flooring-filter-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .flooring-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 180px;
+  }
+  .flooring-filter-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #a89a80;
+  }
+  .flooring-filter-select {
+    background: #ffffff;
+    border: 1px solid #d6d2c7;
+    color: #1d3045;
+    padding: 10px 36px 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231d3045' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    min-width: 180px;
+    transition: border-color 0.15s ease;
+  }
+  .flooring-filter-select:hover, .flooring-filter-select:focus {
+    border-color: #c8a24a;
+    outline: none;
+  }
+  .flooring-filter-select option:disabled {
+    color: #d6d2c7;
+  }
+  /* Hide the pill-style nav rows since we replaced them with dropdowns */
+  #phase1Section > .subcat-nav,
+  #phase1Section > .size-nav {
+    display: none !important;
+  }
+  @media (max-width: 768px) {
+    .flooring-filter-bar {
+      flex-direction: row;
+      gap: 8px;
+      padding: 10px 16px;
+    }
+    .flooring-filter-group { min-width: 0; flex: 1; }
+    .flooring-filter-select { min-width: 0; width: 100%; font-size: 12px; padding: 8px 30px 8px 12px; }
+    .flooring-filter-label { font-size: 9px; letter-spacing: 1.5px; }
+  }
 </style>
 </head>
 <body>
@@ -2715,6 +2815,27 @@
   </div>
 
 <div id="phase1Section" style="display:none">
+    <div class="flooring-filter-bar">
+      <div class="flooring-filter-group">
+        <label class="flooring-filter-label" for="flooringTypeSelect">Type</label>
+        <select id="flooringTypeSelect" class="flooring-filter-select" aria-label="Flooring type">
+          <option value="tiles" selected>Tiles</option>
+          <option value="engineering-wood" disabled>Engineering Wood (Coming soon)</option>
+          <option value="vinyl" disabled>Vinyl (Coming soon)</option>
+          <option value="deck" disabled>Deck (Coming soon)</option>
+          <option value="pavers" disabled>Pavers (Coming soon)</option>
+        </select>
+      </div>
+      <div class="flooring-filter-group">
+        <label class="flooring-filter-label" for="flooringSizeSelect">Size</label>
+        <select id="flooringSizeSelect" class="flooring-filter-select" aria-label="Tile size">
+          <option value="24x48" selected>24" x 48"</option>
+          <option value="24x24" disabled>24" x 24" (Coming soon)</option>
+          <option value="12x12" disabled>12" x 12" (Coming soon)</option>
+        </select>
+      </div>
+    </div>
+
     <div class="subcat-nav" role="tablist" aria-label="Flooring subcategories">
       <button class="subcat-nav-item active" type="button" data-subcat="tiles" aria-selected="true">Tiles</button>
       <button class="subcat-nav-item is-soon" type="button" disabled aria-disabled="true">Engineering Wood<span class="chip-soon">Coming soon</span></button>
@@ -3108,8 +3229,8 @@ function openModal(sku) {
       '</div>' +
       '<div class="quote-help">Estimated quantities only — final pricing and stock confirmation by Marquee Surface team.</div>' +
       (isAdmin ? '<div style="margin-top:18px;text-align:right;"><button class="btn '+(so?"btn-admin":"")+'" id="toggleSoldOutBtn">'+(so ? "Mark as Available" : "Mark as Sold Out")+'</button></div>' : "") +
-      ctaBar +
-    '</div>';
+    '</div>' +
+    ctaBar;
   document.getElementById("modalBackdrop").classList.add("open");
   // Force PDP scroll to top: immediate + rAF + delayed for iOS Safari + focus title
   const resetScroll = () => {
