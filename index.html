@@ -2826,6 +2826,50 @@
       font-weight: 600 !important;
     }
   }
+
+  /* ============================================================
+     iOS SAFARI PROPER MODAL SCROLL LOCK — prevents rebound
+     ============================================================ */
+  
+  /* Body scroll lock when any modal is open (prevents background scroll + rubber-band) */
+  body.modal-open {
+    position: fixed !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    /* preserve scroll position via inline style set in JS */
+  }
+  
+  /* Backdrop: overlay only, NO scroll — critical for iOS */
+  .modal-backdrop {
+    overflow: hidden !important;
+  }
+  
+  @media (max-width: 768px) {
+    .modal-backdrop {
+      overflow: hidden !important;
+      -webkit-overflow-scrolling: auto !important;
+    }
+    
+    /* Modal itself: no scroll, no overflow — pass to modal-scroll */
+    #modal {
+      overflow: hidden !important;
+      -webkit-overflow-scrolling: auto !important;
+      position: relative !important;
+    }
+    
+    /* modal-scroll is the ONLY scroll container in mobile */
+    #modal .modal-scroll {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior: contain !important;
+      touch-action: pan-y !important;
+      /* Ensure it can be scrolled by touch */
+      max-height: none !important;
+      /* Extra bottom padding so CTA has room and last content isn't hidden by iOS safe area */
+      padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3343,6 +3387,12 @@ function openModal(sku) {
       (isAdmin ? '<div style="margin-top:18px;text-align:right;"><button class="btn '+(so?"btn-admin":"")+'" id="toggleSoldOutBtn">'+(so ? "Mark as Available" : "Mark as Sold Out")+'</button></div>' : "") +
       ctaBar +
     '</div>';
+  (() => {
+    const scrollY = window.scrollY;
+    document.body.style.top = -scrollY + "px";
+    document.body.setAttribute("data-scroll-y", scrollY);
+    document.body.classList.add("modal-open");
+  })();
   document.getElementById("modalBackdrop").classList.add("open");
   // Force PDP scroll to top: immediate + rAF + delayed for iOS Safari + focus title
   const resetScroll = () => {
@@ -3410,7 +3460,15 @@ function openModal(sku) {
   const rmBtn = document.getElementById("removeFromQuoteBtn");
   if (rmBtn) rmBtn.onclick = () => removeFromQuote(sku);
 }
-function closeModal() { document.getElementById("modalBackdrop").classList.remove("open"); window.__currentPdpSku = null; }
+function closeModal() {
+  document.getElementById("modalBackdrop").classList.remove("open");
+  window.__currentPdpSku = null;
+  const scrollY = parseInt(document.body.getAttribute("data-scroll-y") || "0", 10);
+  document.body.classList.remove("modal-open");
+  document.body.style.top = "";
+  document.body.removeAttribute("data-scroll-y");
+  window.scrollTo(0, scrollY);
+}
 
 function toggleSoldOut(sku) {
   if (!isAdmin) return;
@@ -3487,9 +3545,25 @@ function openQuoteBuilder() {
     '<div style="color:#8a8a8a;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;">'+items.length+' item'+(items.length===1?'':'s')+' selected</div>' +
     body +
     '</div>';
+  (() => {
+    if (!document.body.classList.contains("modal-open")) {
+      const scrollY = window.scrollY;
+      document.body.style.top = -scrollY + "px";
+      document.body.setAttribute("data-scroll-y", scrollY);
+      document.body.classList.add("modal-open");
+    }
+  })();
   document.getElementById("quoteBackdrop").classList.add("open");
   document.getElementById("quoteCloseBtn").onclick = () => {
     document.getElementById("quoteBackdrop").classList.remove("open");
+    // Only unlock body if PDP modal is also closed
+    if (!document.getElementById("modalBackdrop").classList.contains("open")) {
+      const scrollY = parseInt(document.body.getAttribute("data-scroll-y") || "0", 10);
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      document.body.removeAttribute("data-scroll-y");
+      window.scrollTo(0, scrollY);
+    }
     // Refresh PDP behind if still open, so Add→Update state reflects current cart
     const pdpBackdrop = document.getElementById("modalBackdrop");
     if (pdpBackdrop && pdpBackdrop.classList.contains("open") && window.__currentPdpSku) {
