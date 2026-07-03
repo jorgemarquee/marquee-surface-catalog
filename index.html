@@ -2071,25 +2071,25 @@
   /* --- Header compacto + logo dimensions --- */
   @media (max-width: 768px) {
     .header {
-      padding: 10px 16px 4px !important;
+      padding: 28px 16px 18px !important;
     }
-    .header-inner { gap: 2px !important; }
-    .brand-block { gap: 2px !important; padding: 0 !important; margin: 0 !important; }
+    .header-inner { gap: 10px !important; }
+    .brand-block { gap: 8px !important; padding: 0 !important; margin: 0 !important; }
     .header::before { height: 3px !important; }
     .brand-logo {
-      max-height: 68px !important;
+      max-height: 130px !important;
       height: auto !important;
-      max-width: 55vw !important;
+      max-width: 88vw !important;
       width: auto !important;
     }
     .brand-block { gap: 4px !important; }
     .header-inner { padding: 0 !important; gap: 8px !important; }
-    .brand-name { font-size: 14px !important; margin: 0 !important; }
-    .brand-sub { font-size: 9px !important; margin-top: 2px !important; }
+    .brand-name { font-size: 17px !important; margin: 0 !important; }
+    .brand-sub { font-size: 11px !important; margin-top: 6px !important; letter-spacing: 3px !important; }
   }
   @media (min-width: 769px) {
-    .header { padding: 24px 24px 16px !important; }
-    .brand-logo { max-height: 88px !important; }
+    .header { padding: 40px 24px 28px !important; }
+    .brand-logo { max-height: 180px !important; max-width: 640px !important; }
   }
 
   /* --- Trust band moves under logo, compact --- */
@@ -2908,6 +2908,462 @@
   @media (min-width: 769px) {
     .pdp-scroll-ensurer { display: none; }
   }
+
+  /* ============================================================
+     BATCH 1 · Tier 1 Conversion Blockers — CSS
+     ============================================================ */
+  
+  /* Item 1: Stock badge on grid cards (subtle, brand-consistent) */
+  .stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 2px;
+    z-index: 3;
+    line-height: 1;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .stock-badge.stock-available {
+    background: rgba(200, 162, 74, 0.92);
+    color: #ffffff;
+  }
+  .stock-badge.stock-low {
+    background: rgba(230, 165, 60, 0.92);
+    color: #ffffff;
+  }
+  .stock-badge.stock-mto {
+    background: rgba(104, 113, 119, 0.92);
+    color: #ffffff;
+  }
+  .slab-card, .hero-card {
+    position: relative;
+  }
+
+  /* Item 2: Search overlay */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(29, 48, 69, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 300;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+  }
+  .search-overlay.open { display: flex; }
+  .search-overlay-inner {
+    background: #ffffff;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    overflow: hidden;
+  }
+  .search-overlay-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e8e0d0;
+    gap: 8px;
+  }
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-family: inherit;
+    color: #1d3045;
+    padding: 8px 4px;
+    background: transparent;
+  }
+  .search-input::placeholder { color: #a89a80; }
+  .search-close-btn {
+    background: transparent;
+    border: none;
+    color: #687177;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .search-close-btn:hover {
+    background: #faf8f4;
+    color: #1d3045;
+  }
+  .search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .search-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #a89a80;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .search-result {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #f0ead9;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .search-result:hover { background: #faf8f4; }
+  .search-result-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #faf8f4;
+    flex-shrink: 0;
+  }
+  .search-result-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .search-result-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #a89a80;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .search-result-info { flex: 1; min-width: 0; }
+  .search-result-name {
+    font-weight: 600;
+    color: #1d3045;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .search-result-meta {
+    font-size: 11px;
+    color: #a89a80;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  /* Item 3: Enhanced toast (top of viewport, prominent) + Header selection counter */
+  #toast {
+    position: fixed !important;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    top: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(20px) !important;
+    background: rgba(29, 48, 69, 0.92) !important;
+    color: #ffffff !important;
+    padding: 8px 16px !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+    z-index: 400 !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+    box-shadow: 0 2px 12px rgba(29, 48, 69, 0.18) !important;
+    max-width: calc(100% - 40px) !important;
+    text-align: center !important;
+    pointer-events: none !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+  }
+  #toast.show {
+    opacity: 1 !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+  
+  .header-selection-btn {
+    position: relative;
+  }
+  .header-selection-count {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background: #c8a24a;
+    color: #ffffff;
+    font-size: 9.5px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+  }
+
+  /* ============================================================
+     BATCH 2 · Tier 2 Mobile Operational Friction
+     ============================================================ */
+  
+  /* Item 5: Single column @ portrait mobile < 480px */
+  @media (max-width: 479px) {
+    #slabsGrid, #heroGrid,
+    .slabs-grid, .hero-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+      padding: 0 12px !important;
+    }
+    .slab-card, .hero-card {
+      max-width: 100% !important;
+    }
+    .slab-card-img, .hero-card-img {
+      aspect-ratio: 4/3 !important;
+    }
+    .slab-card-name, .hero-card-name {
+      font-size: 15px !important;
+      padding-top: 12px !important;
+    }
+    .slab-card-info, .hero-card-info {
+      padding: 12px 14px !important;
+    }
+  }
+
+  /* Item 6: Tap targets ≥ 44px (Apple HIG compliance) */
+  .category-toggle-item {
+    min-height: 44px !important;
+    padding: 12px 20px !important;
+    font-size: 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  @media (max-width: 768px) {
+    .category-toggle-item {
+      min-height: 44px !important;
+      padding: 12px 18px !important;
+    }
+  }
+  .header-icon-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+  .flooring-filter-select {
+    min-height: 44px !important;
+  }
+
+  /* Item 7: Lightbox with pinch-zoom on mobile */
+  #galleryLightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.94);
+    z-index: 500;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    touch-action: pinch-zoom;
+  }
+  #galleryLightbox.open { display: flex; }
+  #galleryLightbox .lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    touch-action: pinch-zoom;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: transform 0.15s ease-out;
+    transform-origin: center center;
+  }
+  #galleryLightbox .lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #ffffff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  #galleryLightbox .lightbox-hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+  }
+  .photo-main {
+    cursor: zoom-in !important;
+  }
+
+  /* Item 8: Form validation styles */
+  .quote-form input[required].invalid,
+  .quote-form textarea[required].invalid {
+    border-color: #c8424f !important;
+  }
+  .quote-form .field-error {
+    color: #c8424f;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: none;
+  }
+  .quote-form .field-error.show { display: block; }
+  .quote-form label .req-mark {
+    color: #c8424f;
+    margin-left: 3px;
+  }
+  #wa-send-btn.disabled,
+  #email-send-btn.disabled,
+  .quote-send-btn.disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+  }
+
+  /* Item 9: Photo count badge on grid thumbnails */
+  .photo-count-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(29, 48, 69, 0.82);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(4px);
+    z-index: 3;
+    line-height: 1;
+  }
+  .photo-count-badge svg { flex-shrink: 0; }
+
+  /* Item 10: Branded placeholder */
+  .slab-img-placeholder {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #f0ead9 0%, #e8e0d0 50%, #d6d2c7 100%) !important;
+    padding: 24px 16px !important;
+    height: 100% !important;
+    width: 100% !important;
+    text-align: center !important;
+    color: #1d3045 !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  .slab-img-placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 30% 20%, rgba(200,162,74,0.08) 0%, transparent 50%),
+                      radial-gradient(circle at 70% 80%, rgba(29,48,69,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .slab-img-placeholder .placeholder-icon {
+    font-size: 24px !important;
+    color: #c8a24a !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+    position: relative;
+    z-index: 1;
+  }
+  .slab-img-placeholder .placeholder-name {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #1d3045 !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 6px !important;
+    position: relative;
+    z-index: 1;
+  }
+  .slab-img-placeholder .placeholder-sub {
+    font-size: 9.5px !important;
+    color: #c8a24a !important;
+    letter-spacing: 1.8px !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Trust badges when injected into Design Inquiry */
+  #quoteModal .inquiry-trust-band {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f0ead9;
+  }
+  #quoteModal .inquiry-trust-band .trust-band {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+  }
+  #quoteModal .inquiry-trust-band .trust-band-inner {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px 16px !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  #quoteModal .inquiry-trust-band .trust-item {
+    font-size: 10px !important;
+    color: #687177 !important;
+    letter-spacing: 1.2px !important;
+  }
+  #quoteModal .inquiry-trust-band .trust-icon {
+    width: 13px !important;
+    height: 13px !important;
+    color: #c8a24a !important;
+  }
+  @media (max-width: 768px) {
+    #quoteModal .inquiry-trust-band .trust-band-inner {
+      grid-template-columns: 1fr !important;
+      gap: 6px !important;
+    }
+  }
+  
+  /* Prevent double-tap zoom from browser interfering with pinch zoom in PDP */
+  #modal .photo-main {
+    touch-action: pinch-zoom;
+  }
+
+  /* Featured badge hidden per client instruction — no tags on grid cards for now */
+  .featured-badge,
+  .badge.featured,
+  span.badge.featured {
+    display: none !important;
+  }
 </style>
 </head>
 <body>
@@ -2918,6 +3374,13 @@
       <div class="brand-sub">Catalog · July 2026</div>
     </div>
     <div class="header-actions">
+      <button class="header-icon-btn header-selection-btn" id="headerSelectionBtn" title="View Selection" aria-label="View Selection" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="header-selection-count" id="headerSelectionCount">0</span>
+      </button>
+      <button class="header-icon-btn" id="searchOpenBtn" title="Search catalog" aria-label="Search catalog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
       <button class="header-icon-btn" id="copyLink" title="Copy catalog link" aria-label="Copy link">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -2932,14 +3395,7 @@
       </button>
     </div>
   </div>
-    <div class="trust-band">
-  <div class="trust-band-inner">
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Trade pricing for contractors</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>Quotes within 24 business hours</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg> <span>Best Prices · Best Quality</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg> <span>NY / NJ delivery</span></span>
-  </div>
-</div>
+    
 </div>
 
 <div class="category-toggle-bar">
@@ -3043,8 +3499,7 @@
       <button class="size-nav-item is-soon" type="button" disabled aria-disabled="true">24&quot; &times; 24&quot;<span class="chip-soon">Coming soon</span></button>
       <button class="size-nav-item is-soon" type="button" disabled aria-disabled="true">12&quot; &times; 12&quot;<span class="chip-soon">Coming soon</span></button>
     </div>
-    <div class="section-title">Tiles</div>
-    <div class="section-sub">Premium full-body porcelain tile from the SyncStone Collection.</div>
+    <div class="section-title">Porcelain Tiles</div>
     <div class="hero-grid" id="heroGrid"></div>
   </div>
 
@@ -3099,6 +3554,20 @@
   Marquee Surface · Catalog July 2026 · Request a quote via WhatsApp or email.
 </div>
 
+
+<div id="searchOverlay" class="search-overlay" aria-hidden="true">
+  <div class="search-overlay-inner">
+    <div class="search-overlay-header">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search products, collections, colors..." autocomplete="off" />
+      <button id="searchCloseBtn" class="search-close-btn" aria-label="Close search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div id="searchResults" class="search-results">
+      <div class="search-empty">Start typing to search</div>
+    </div>
+  </div>
+</div>
 <script>
 // ============================================================
 // CONFIGURATION — EDIT THESE VALUES IN GITHUB WHEN READY
@@ -3141,11 +3610,31 @@ function saveSoldOutToHash() {
   else window.location.hash = "s=" + encodeURIComponent(arr.join(","));
 }
 function loadQuoteCart() {
-  try { quoteCart = JSON.parse(localStorage.getItem(STORAGE_QUOTE_KEY)) || {}; }
-  catch(e) { quoteCart = {}; }
+  try {
+    const raw = localStorage.getItem(STORAGE_QUOTE_KEY);
+    if (!raw) { quoteCart = {}; return; }
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && parsed.cart !== undefined) {
+      const ageMs = Date.now() - (parsed.savedAt || 0);
+      const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+      if (ageMs > THIRTY_DAYS) {
+        localStorage.removeItem(STORAGE_QUOTE_KEY);
+        quoteCart = {};
+        return;
+      }
+      quoteCart = parsed.cart;
+      window.__marqueeReturnCartCount = Object.keys(quoteCart).length;
+      return;
+    }
+    quoteCart = parsed || {};
+    window.__marqueeReturnCartCount = Object.keys(quoteCart).length;
+  } catch(e) { quoteCart = {}; }
 }
 function saveQuoteCart() {
-  try { localStorage.setItem(STORAGE_QUOTE_KEY, JSON.stringify(quoteCart)); } catch(e){}
+  try {
+    const payload = { cart: quoteCart, savedAt: Date.now() };
+    localStorage.setItem(STORAGE_QUOTE_KEY, JSON.stringify(payload));
+  } catch(e){}
 }
 
 function toast(msg) {
@@ -3230,6 +3719,19 @@ function inQuoteBadge(sku) {
   return quoteCart[sku] ? '<div class="in-quote-badge">✓ In quote</div>' : "";
 }
 
+function photoCountBadge(p) {
+  if (!p.photos || p.photos.length < 2) return "";
+  return '<div class="photo-count-badge" title="' + p.photos.length + ' photos">' +
+    '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M6 7l2-3h8l2 3"/></svg>' +
+    '<span>' + p.photos.length + '</span>' +
+  '</div>';
+}
+
+function stockBadge(p) {
+  // Stock badges removed per Noya feedback — kept as no-op for future reintroduction
+  return '';
+}
+
 function firstPhoto(p) {
   if (p.thumb) return p.thumb;
   return p.photos && p.photos.length > 0 ? p.photos[0] : null;
@@ -3244,11 +3746,12 @@ function renderHero() {
     const photo = firstPhoto(p);
     const img = photo
       ? '<img src="data:image/jpeg;base64,'+photo+'" alt="'+p.name+'" loading="lazy">'
-      : '<div class="slab-img-placeholder">'+p.name+'</div>';
+      : '<div class="slab-img-placeholder"><span class="placeholder-icon">◈</span><span class="placeholder-name">'+p.name+'</span><span class="placeholder-sub">Sample available on request</span></div>';
     return '<div class="hero-card" data-sku="'+p.sku+'">' +
       '<div class="admin-indicator">ADMIN</div>' +
       inQuoteBadge(p.sku) +
-      '<div class="hero-card-img">' + img +
+      stockBadge(p) +
+      '<div class="hero-card-img">' + img + photoCountBadge(p) +
         (so ? '<div class="sold-out-overlay"><div class="sold-out-badge">Sold Out</div></div>' : '') +
       '</div>' +
       '<div class="hero-card-info">' +
@@ -3283,13 +3786,14 @@ function renderSlabs() {
     const photo = firstPhoto(p);
     const img = photo
       ? '<img src="data:image/jpeg;base64,'+photo+'" alt="'+p.name+'" loading="lazy">'
-      : '<div class="slab-img-placeholder"><span class="placeholder-icon">▢</span><span>'+p.name+'</span><span class="placeholder-sub">Photo on request</span></div>';
-    const featuredBadge = p.featured ? '<div class="featured-badge">Featured</div>' : '';
+      : '<div class="slab-img-placeholder"><span class="placeholder-icon">◈</span><span class="placeholder-name">'+p.name+'</span><span class="placeholder-sub">Sample available on request</span></div>';
+    const featuredBadge = '';
     return '<div class="slab-card" data-sku="'+p.sku+'">' +
       '<div class="admin-indicator">ADMIN</div>' +
       inQuoteBadge(p.sku) +
       featuredBadge +
-      '<div class="slab-card-img">' + img +
+      stockBadge(p) +
+      '<div class="slab-card-img">' + img + photoCountBadge(p) +
         (so ? '<div class="sold-out-overlay"><div class="sold-out-badge">Sold Out</div></div>' : '') +
       '</div>' +
       '<div class="slab-card-info">' +
@@ -3305,6 +3809,13 @@ function renderQuoteFab() {
   const fab = document.getElementById("quoteFab");
   if (count > 0) { fab.classList.add("visible"); document.getElementById("fabCount").textContent = count; }
   else { fab.classList.remove("visible"); }
+  // Also update header selection counter
+  const hBtn = document.getElementById("headerSelectionBtn");
+  const hCnt = document.getElementById("headerSelectionCount");
+  if (hBtn && hCnt) {
+    if (count > 0) { hBtn.style.display = ""; hCnt.textContent = count; }
+    else { hBtn.style.display = "none"; }
+  }
 }
 
 function renderAll() {
@@ -3550,12 +4061,18 @@ function addToQuote(sku, qty, unit) {
   saveQuoteCart(); renderAll();
   // Stack the quote builder on top of the PDP instead of closing it
   openQuoteBuilder();
-  toast(isUpdate ? "Quote updated" : "Added to quote");
+  // Update case: no toast (drawer shows state). Add case: subtle bottom confirmation.
+  if (!isUpdate) toast("Added to Selection");
 }
 function removeFromQuote(sku) {
   delete quoteCart[sku];
-  saveQuoteCart(); renderAll(); closeModal();
-  toast("Removed from quote");
+  saveQuoteCart();
+  renderAll();
+  // Do NOT close PDP — keep user in context; inquiry re-renders inline.
+  // If PDP is currently open on this sku, refresh its CTA state (Add ↔ Update)
+  if (window.__currentPdpSku === sku && document.getElementById("modalBackdrop")?.classList.contains("open")) {
+    openModal(sku);
+  }
 }
 
 function openQuoteBuilder() {
@@ -3830,7 +4347,7 @@ function switchView(view) {
     ctaToTiles.style.display = "none";
     tilesSection.style.display = "";
     ctaBack.style.display = "";
-    updateBreadcrumb("Flooring", "Tiles", "SyncStone Collection", "Porcelain tiles for floors and bathroom walls");
+    updateBreadcrumb("Flooring", "Tiles", "Porcelain Tiles", "");
   } else {
     slabsSection.style.display = "";
     ctaToTiles.style.display = "";
@@ -3952,11 +4469,19 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderLightbox() {
     if (!lbPhotos[lbIndex]) return;
     const img = document.getElementById("lightboxImg");
+    // Reset zoom transform BEFORE swapping to prevent overlap of stale scaled image
+    img.style.transition = "none";
+    img.style.transform = "scale(1)";
     img.style.opacity = "0";
-    setTimeout(function() {
-      img.src = "data:image/jpeg;base64," + lbPhotos[lbIndex];
+    // Force reflow so transition:none applies
+    void img.offsetHeight;
+    // Swap src synchronously and fade in
+    img.src = "data:image/jpeg;base64," + lbPhotos[lbIndex];
+    // Re-enable transition on next frame
+    requestAnimationFrame(function() {
+      img.style.transition = "opacity 0.2s ease-out, transform 0.15s ease-out";
       img.style.opacity = "1";
-    }, 60);
+    });
     document.getElementById("lightboxCounter").textContent = (lbIndex + 1) + " / " + lbPhotos.length;
     document.getElementById("lightboxPrev").disabled = (lbIndex === 0);
     document.getElementById("lightboxNext").disabled = (lbIndex === lbPhotos.length - 1);
@@ -3969,8 +4494,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof galleryIndex !== "undefined") { galleryIndex = lbIndex; }
   }
 
-  function next() { if (lbIndex < lbPhotos.length - 1) { lbIndex++; renderLightbox(); } }
-  function prev() { if (lbIndex > 0) { lbIndex--; renderLightbox(); } }
+  function resetLightboxZoom() {
+    const img = document.getElementById("lightboxImg");
+    if (img) {
+      img.style.transform = "scale(1)";
+      // Also reset any internal zoom counter maintained by the pinch handler
+      if (window.__resetLbZoomState) window.__resetLbZoomState();
+    }
+  }
+  function next() { if (lbIndex < lbPhotos.length - 1) { resetLightboxZoom(); lbIndex++; renderLightbox(); } }
+  function prev() { if (lbIndex > 0) { resetLightboxZoom(); lbIndex--; renderLightbox(); } }
 
   document.addEventListener("DOMContentLoaded", function() {
     const bd = document.getElementById("lightboxBackdrop");
@@ -4043,6 +4576,391 @@ if (typeof updateBreadcrumb === "function") {
   updateBreadcrumb("Countertops / Slabs", null, "Porcelain Slabs", "Countertops · Feature Walls");
 }
 
+
+
+// Search overlay: open, close, live filter
+(function() {
+  const btn = document.getElementById("searchOpenBtn");
+  const overlay = document.getElementById("searchOverlay");
+  const input = document.getElementById("searchInput");
+  const closeBtn = document.getElementById("searchCloseBtn");
+  const results = document.getElementById("searchResults");
+
+  function open() {
+    overlay.classList.add("open");
+    if (!document.body.classList.contains("modal-open")) {
+      const scrollY = window.scrollY;
+      document.body.style.top = -scrollY + "px";
+      document.body.setAttribute("data-scroll-y", scrollY);
+      document.body.classList.add("modal-open");
+    }
+    setTimeout(() => input.focus(), 100);
+  }
+  function close() {
+    overlay.classList.remove("open");
+    if (document.body.classList.contains("modal-open") &&
+        !document.getElementById("modalBackdrop").classList.contains("open") &&
+        !document.getElementById("quoteBackdrop").classList.contains("open")) {
+      const scrollY = parseInt(document.body.getAttribute("data-scroll-y") || "0", 10);
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      document.body.removeAttribute("data-scroll-y");
+      window.scrollTo(0, scrollY);
+    }
+    input.value = "";
+    renderResults("");
+  }
+  function renderResults(q) {
+    q = (q || "").trim().toLowerCase();
+    if (!q) {
+      results.innerHTML = '<div class="search-empty">Start typing to search</div>';
+      return;
+    }
+    const matches = products.filter(p => {
+      const hay = [p.name, p.collection, p.color_family, p.finish, p.category].join(" ").toLowerCase();
+      return hay.includes(q);
+    }).slice(0, 30);
+    if (matches.length === 0) {
+      results.innerHTML = '<div class="search-empty">No matches for "' + q + '"</div>';
+      return;
+    }
+    results.innerHTML = matches.map(p => {
+      const photo = firstPhoto(p);
+      const img = photo
+        ? '<img src="data:image/jpeg;base64,' + photo + '" alt="' + p.name + '">'
+        : '<div class="search-result-placeholder">' + p.name.substring(0, 2) + '</div>';
+      return '<button class="search-result" data-sku="' + p.sku + '">' +
+        '<div class="search-result-thumb">' + img + '</div>' +
+        '<div class="search-result-info">' +
+          '<div class="search-result-name">' + p.name + '</div>' +
+          '<div class="search-result-meta">' + (p.color_family || "") + ' · ' + (p.category || "") + '</div>' +
+        '</div>' +
+      '</button>';
+    }).join("");
+    results.querySelectorAll(".search-result").forEach(btn => {
+      btn.onclick = () => {
+        close();
+        setTimeout(() => openModal(btn.dataset.sku), 200);
+      };
+    });
+  }
+  if (btn) btn.onclick = open;
+  if (closeBtn) closeBtn.onclick = close;
+  if (input) input.oninput = e => renderResults(e.target.value);
+  // Escape closes search
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) close();
+  });
+})();
+
+
+// Header selection counter: click opens Design Inquiry directly
+(function() {
+  document.addEventListener("click", function(e) {
+    const btn = e.target.closest("#headerSelectionBtn");
+    if (btn) {
+      openQuoteBuilder();
+    }
+  });
+})();
+
+
+// Item 4: Return-visitor toast — "You have X items in your Selection"
+(function() {
+  window.addEventListener("load", function() {
+    setTimeout(function() {
+      const cnt = window.__marqueeReturnCartCount || 0;
+      if (cnt > 0 && typeof toast === "function") {
+        toast("You have " + cnt + " item" + (cnt === 1 ? "" : "s") + " in your Selection");
+      }
+    }, 1000);
+  });
+})();
+
+
+// Item 8: Design Inquiry inline validation
+(function() {
+  function getQuoteForm() {
+    return document.querySelector('#quoteModal .quote-form, .quote-form');
+  }
+  
+  function validateField(field) {
+    const val = (field.value || '').trim();
+    const isValid = val.length > 0;
+    field.classList.toggle('invalid', !isValid);
+    const errorEl = field.parentElement.querySelector('.field-error');
+    if (errorEl) errorEl.classList.toggle('show', !isValid);
+    return isValid;
+  }
+  
+  function validateForm() {
+    // Marquee Design Inquiry field IDs: qName, qEmail, qPhone, qZip
+    const nameEl = document.getElementById('qName');
+    const emailEl = document.getElementById('qEmail');
+    const phoneEl = document.getElementById('qPhone');
+    const zipEl = document.getElementById('qZip');
+    if (!nameEl && !emailEl) return true; // form not rendered yet
+    
+    const nameVal = nameEl ? (nameEl.value || '').trim() : '';
+    const emailVal = emailEl ? (emailEl.value || '').trim() : '';
+    const phoneVal = phoneEl ? (phoneEl.value || '').trim() : '';
+    const zipVal = zipEl ? (zipEl.value || '').trim() : '';
+    
+    const nameOK = nameVal.length > 0;
+    const zipOK = zipVal.length > 0;
+    const hasContact = emailVal.length > 0 || phoneVal.length > 0;
+    
+    return nameOK && zipOK && hasContact;
+  }
+  
+  function toggleSendButtons() {
+    const isValid = validateForm();
+    const sendBtns = document.querySelectorAll('#quoteModal button.quote-send-btn, #quoteModal button[id*="send"], #quoteModal button[id*="Send"], .modal-cta-add');
+    sendBtns.forEach(btn => {
+      const isSendBtn = /send|whatsapp|email/i.test(btn.textContent);
+      if (isSendBtn) btn.classList.toggle('disabled', !isValid);
+    });
+  }
+  
+  // Attach listeners via delegation (form re-renders)
+  document.addEventListener('input', function(e) {
+    const t = e.target;
+    if (t.matches('#quoteModal input, #quoteModal textarea, .quote-form input, .quote-form textarea')) {
+      if (t.hasAttribute('required')) validateField(t);
+      toggleSendButtons();
+    }
+  });
+  document.addEventListener('blur', function(e) {
+    const t = e.target;
+    if (t.matches('#quoteModal input[required], .quote-form input[required]')) {
+      validateField(t);
+    }
+  }, true);
+  
+  // Re-validate when Inquiry opens
+  const observer = new MutationObserver(function() {
+    const q = document.getElementById('quoteBackdrop');
+    if (q && q.classList.contains('open')) {
+      setTimeout(toggleSendButtons, 100);
+    }
+  });
+  window.addEventListener('load', function() {
+    const target = document.getElementById('quoteBackdrop');
+    if (target) observer.observe(target, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
+
+
+
+// Batch 2 · Item 7: Add pinch-zoom + double-tap zoom to existing lightbox
+(function() {
+  const img = document.getElementById('lightboxImg');
+  if (!img) return;
+  
+  let currentScale = 1;
+  let initialDistance = 0;
+  let lastScale = 1;
+  
+  function getDistance(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+  
+  function resetZoom() {
+    currentScale = 1;
+    lastScale = 1;
+    img.style.transform = 'scale(1)';
+    img.style.transformOrigin = 'center center';
+    img.style.transition = 'transform 0.15s ease-out';
+  }
+  // Expose so navigation can reset zoom state
+  window.__resetLbZoomState = resetZoom;
+  
+  img.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 2) {
+      initialDistance = getDistance(e.touches[0], e.touches[1]);
+      lastScale = currentScale;
+    }
+  }, { passive: true });
+  
+  img.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 2 && initialDistance > 0) {
+      const currentDistance = getDistance(e.touches[0], e.touches[1]);
+      const scaleFactor = currentDistance / initialDistance;
+      currentScale = Math.max(1, Math.min(4, lastScale * scaleFactor));
+      img.style.transform = `scale(${currentScale})`;
+    }
+  }, { passive: true });
+  
+  img.addEventListener('touchend', function(e) {
+    if (e.touches.length < 2) initialDistance = 0;
+  }, { passive: true });
+  
+  // Double-tap toggle 1x/2.5x
+  let lastTap = 0;
+  img.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTap < 300 && e.touches.length === 0) {
+      currentScale = currentScale > 1 ? 1 : 2.5;
+      lastScale = currentScale;
+      img.style.transform = `scale(${currentScale})`;
+    }
+    lastTap = now;
+  }, { passive: true });
+  
+  // Reset zoom on lightbox close (observer on lightboxBackdrop)
+  const backdrop = document.getElementById('lightboxBackdrop');
+  if (backdrop) {
+    const observer = new MutationObserver(function() {
+      if (!backdrop.classList.contains('open')) resetZoom();
+    });
+    observer.observe(backdrop, { attributes: true, attributeFilter: ['class'] });
+  }
+})();
+
+
+// Item 8: Mark required fields with asterisk + Send buttons initial state
+(function() {
+  function markRequiredFields() {
+    const labels = document.querySelectorAll('#quoteModal label');
+    labels.forEach(label => {
+      const text = label.textContent.trim().toLowerCase();
+      const alreadyMarked = label.querySelector('.req-mark');
+      if (alreadyMarked) return;
+      if (/name|email|phone|zip|address/.test(text)) {
+        const mark = document.createElement('span');
+        mark.className = 'req-mark';
+        mark.textContent = '*';
+        label.appendChild(mark);
+      }
+    });
+  }
+  const backdrop = document.getElementById('quoteBackdrop');
+  if (backdrop) {
+    new MutationObserver(function() {
+      if (backdrop.classList.contains('open')) {
+        setTimeout(markRequiredFields, 150);
+      }
+    }).observe(backdrop, { attributes: true, attributeFilter: ['class'] });
+  }
+})();
+
+
+// PDP Hero pinch-zoom (works directly on gallery main without opening lightbox)
+(function() {
+  let pdpScale = 1;
+  let pdpInitialDist = 0;
+  let pdpLastScale = 1;
+  let pdpLastTap = 0;
+  
+  function getDist(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+  
+  function resetPdpZoom(img) {
+    pdpScale = 1;
+    pdpLastScale = 1;
+    if (img) {
+      img.style.transform = 'scale(1)';
+      img.style.transformOrigin = 'center center';
+    }
+  }
+  
+  function attach(img) {
+    if (!img || img.dataset.pinchAttached) return;
+    img.dataset.pinchAttached = '1';
+    img.style.transition = 'transform 0.15s ease-out';
+    img.style.transformOrigin = 'center center';
+    
+    img.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        pdpInitialDist = getDist(e.touches[0], e.touches[1]);
+        pdpLastScale = pdpScale;
+      }
+    }, { passive: true });
+    
+    img.addEventListener('touchmove', function(e) {
+      if (e.touches.length === 2 && pdpInitialDist > 0) {
+        const currentDist = getDist(e.touches[0], e.touches[1]);
+        const factor = currentDist / pdpInitialDist;
+        pdpScale = Math.max(1, Math.min(4, pdpLastScale * factor));
+        img.style.transform = 'scale(' + pdpScale + ')';
+        // Prevent default page zoom
+        if (e.cancelable) e.preventDefault();
+      }
+    }, { passive: false });
+    
+    img.addEventListener('touchend', function(e) {
+      if (e.touches.length < 2) pdpInitialDist = 0;
+      // Double-tap toggle
+      const now = Date.now();
+      if (now - pdpLastTap < 300 && e.touches.length === 0) {
+        pdpScale = pdpScale > 1 ? 1 : 2.5;
+        pdpLastScale = pdpScale;
+        img.style.transform = 'scale(' + pdpScale + ')';
+      }
+      pdpLastTap = now;
+    }, { passive: true });
+  }
+  
+  // Attach when PDP opens (galleryMain is created dynamically)
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  if (modalBackdrop) {
+    new MutationObserver(function() {
+      if (modalBackdrop.classList.contains('open')) {
+        setTimeout(function() {
+          const img = document.getElementById('galleryMain');
+          attach(img);
+          resetPdpZoom(img);
+        }, 200);
+      }
+    }).observe(modalBackdrop, { attributes: true, attributeFilter: ['class'] });
+  }
+  
+  // Also reset zoom when navigating photos in PDP (thumbnail click)
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.photo-thumb')) {
+      setTimeout(function() {
+        resetPdpZoom(document.getElementById('galleryMain'));
+      }, 50);
+    }
+  });
+})();
+
+
+// Fix 3: Append trust badges to Design Inquiry, only if not already present
+(function() {
+  const trustBadgesHTML = `<div class="trust-band">
+  <div class="trust-band-inner">
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Trade pricing for contractors</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>Quotes within 24 business hours</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg> <span>Best Prices · Best Quality</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg> <span>NY / NJ delivery</span></span>
+  </div>
+</div>`;
+  
+  function injectTrustBadges() {
+    const qs = document.querySelector("#quoteModal .quote-scroll");
+    if (!qs || qs.querySelector(".inquiry-trust-band")) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "inquiry-trust-band";
+    wrapper.innerHTML = trustBadgesHTML;
+    qs.appendChild(wrapper);
+  }
+  
+  // Inject on Inquiry open (observer catches every open, works with re-renders)
+  const backdrop = document.getElementById("quoteBackdrop");
+  if (backdrop) {
+    new MutationObserver(function() {
+      if (backdrop.classList.contains("open")) {
+        setTimeout(injectTrustBadges, 100);
+      }
+    }).observe(backdrop, { attributes: true, attributeFilter: ["class"] });
+  }
+})();
 </script>
 </body>
 </html>
