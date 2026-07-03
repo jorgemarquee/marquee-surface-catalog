@@ -2063,6 +2063,369 @@
     .category-toggle-item { padding: 8px 16px; font-size: 11px; letter-spacing: 2.2px; }
     .category-toggle-item.active::after { left: 16px; right: 16px; }
   }
+
+  /* ============================================================
+     FINAL COMPACT MOBILE + PDP PALETTE OVERRIDES — July 2026 v2
+     ============================================================ */
+
+  /* --- Header compacto + logo dimensions --- */
+  @media (max-width: 768px) {
+    .header {
+      padding: 14px 16px 10px !important;
+    }
+    .header::before { height: 3px !important; }
+    .brand-logo {
+      max-height: 52px !important;
+      height: auto !important;
+      max-width: 25vw !important;
+      width: auto !important;
+    }
+    .brand-block { gap: 4px !important; }
+    .header-inner { padding: 0 !important; gap: 8px !important; }
+    .brand-name { font-size: 14px !important; margin: 0 !important; }
+    .brand-sub { font-size: 9px !important; margin-top: 2px !important; }
+  }
+  @media (min-width: 769px) {
+    .header { padding: 24px 24px 16px !important; }
+    .brand-logo { max-height: 88px !important; }
+  }
+
+  /* --- Trust band moves under logo, compact --- */
+  .trust-band {
+    padding: 8px 16px !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px solid #f0ead9 !important;
+    margin-top: 8px !important;
+  }
+  .trust-band-inner {
+    max-width: 100% !important;
+    color: #a89a80 !important;
+    font-size: 10px !important;
+    letter-spacing: 1.2px !important;
+    text-transform: uppercase !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    flex-wrap: wrap !important;
+  }
+  .trust-item {
+    font-size: 10px !important;
+    color: #687177 !important;
+    letter-spacing: 1.2px !important;
+  }
+  .trust-icon {
+    color: #c8a24a !important;
+    width: 12px !important;
+    height: 12px !important;
+  }
+  @media (max-width: 768px) {
+    .trust-band { padding: 6px 12px !important; margin-top: 6px !important; }
+    .trust-band-inner {
+      display: flex !important;
+      grid-template-columns: unset !important;
+      overflow-x: auto !important;
+      flex-wrap: nowrap !important;
+      gap: 12px !important;
+      font-size: 9px !important;
+      justify-content: flex-start !important;
+      padding-bottom: 2px !important;
+    }
+    .trust-item { font-size: 9px !important; letter-spacing: 1px !important; }
+    .trust-icon { width: 10px !important; height: 10px !important; }
+  }
+
+  /* --- Category toggle bar simétrico + compacto --- */
+  .category-toggle-bar {
+    padding: 12px 24px !important;
+  }
+  @media (max-width: 768px) {
+    .category-toggle-bar { padding: 10px 16px !important; }
+  }
+
+  /* --- Breadcrumb bar compacto --- */
+  .breadcrumb-bar {
+    padding: 10px 24px !important;
+  }
+  @media (max-width: 768px) {
+    .breadcrumb-bar { padding: 8px 16px !important; }
+    .breadcrumb { font-size: 9px !important; letter-spacing: 1.8px !important; }
+    .breadcrumb-item { font-size: 9px !important; letter-spacing: 1.8px !important; }
+  }
+
+  /* --- Contextual title bar compacto --- */
+  .contextual-title-bar {
+    padding: 16px 24px !important;
+  }
+  .contextual-title {
+    font-size: 22px !important;
+    margin: 0 !important;
+  }
+  .contextual-title-meta {
+    margin-top: 4px !important;
+    font-size: 10px !important;
+  }
+  @media (max-width: 768px) {
+    .contextual-title-bar { padding: 12px 16px !important; }
+    .contextual-title { font-size: 18px !important; }
+    .contextual-title-meta { font-size: 9px !important; letter-spacing: 2px !important; }
+  }
+
+  /* --- Editorial filter for size/color subcategories (replaces pills) --- */
+  .subcat-nav, .size-nav, .color-filter-nav {
+    background: transparent !important;
+    border: none !important;
+    padding: 6px 16px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 2px !important;
+    margin: 0 auto !important;
+    max-width: 1200px !important;
+  }
+  .subcat-nav-item, .size-nav-item, .color-filter-btn {
+    background: transparent !important;
+    border: none !important;
+    padding: 6px 14px !important;
+    color: #a89a80 !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: color 0.18s ease !important;
+    font-family: inherit !important;
+    border-radius: 0 !important;
+  }
+  .subcat-nav-item:hover:not(.disabled),
+  .size-nav-item:hover:not(.disabled),
+  .color-filter-btn:hover:not(.disabled) {
+    color: #1d3045 !important;
+  }
+  .subcat-nav-item.active, .size-nav-item.active, .color-filter-btn.active {
+    color: #1d3045 !important;
+    font-weight: 600 !important;
+  }
+  .subcat-nav-item.active::after,
+  .size-nav-item.active::after,
+  .color-filter-btn.active::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 14px; right: 14px;
+    bottom: 0 !important;
+    height: 1.5px !important;
+    background: #c8a24a !important;
+  }
+  .subcat-nav-item.disabled, .size-nav-item.disabled, .color-filter-btn.disabled {
+    color: #d6d2c7 !important;
+    cursor: default !important;
+    pointer-events: none !important;
+  }
+  @media (max-width: 768px) {
+    .subcat-nav-item, .size-nav-item, .color-filter-btn {
+      font-size: 10px !important; letter-spacing: 1.8px !important; padding: 5px 10px !important;
+    }
+  }
+
+  /* --- PDP MODAL palette override — remove near-black + navy, apply brand --- */
+  .modal {
+    background: #ffffff !important;
+    border: 1px solid #e8e0d0 !important;
+    color: #1a1a1a !important;
+  }
+  .modal-scroll { background: #ffffff !important; padding-top: 44px !important; }
+  .modal h2 {
+    color: #1d3045 !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    padding-right: 48px !important;
+    letter-spacing: 0.3px !important;
+  }
+  .modal-sub { color: #687177 !important; }
+  @media (max-width: 768px) {
+    .modal h2 { font-size: 19px !important; }
+    .modal-scroll { padding-top: 40px !important; }
+  }
+
+  /* --- Modal close button — much more visible --- */
+  .modal-close {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #e8e0d0 !important;
+    color: #1d3045 !important;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 50% !important;
+    font-size: 22px !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    z-index: 100 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 300 !important;
+  }
+  .modal-close:hover {
+    background: #1d3045 !important;
+    color: #ffffff !important;
+    border-color: #1d3045 !important;
+  }
+
+  /* --- Price block: brand palette instead of navy/gray --- */
+  .price-block {
+    background: #faf8f4 !important;
+    border-left: 3px solid #c8a24a !important;
+    border-radius: 0 4px 4px 0 !important;
+    padding: 14px 18px !important;
+  }
+  .price-label {
+    color: #a89a80 !important;
+    letter-spacing: 2px !important;
+    font-size: 10px !important;
+  }
+  .price-value {
+    color: #1d3045 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+  }
+  .price-unit { color: #687177 !important; }
+  .price-tba { color: #1d3045 !important; font-style: normal !important; font-weight: 500 !important; }
+
+  /* --- Feature badges: editorial not chip --- */
+  .feature-badge {
+    background: #ffffff !important;
+    color: #1d3045 !important;
+    border: 1px solid #d6d2c7 !important;
+    border-radius: 2px !important;
+    font-size: 10px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    padding: 4px 10px !important;
+    font-weight: 500 !important;
+  }
+
+  /* --- Specs: 2 columns everywhere, less gap --- */
+  .modal-specs {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 4px 20px !important;
+    margin-top: 12px !important;
+    font-size: 12px !important;
+    color: #4a4a4a !important;
+  }
+  .modal-specs > div {
+    padding: 4px 0 !important;
+    border-bottom: 1px solid #f0ead9 !important;
+    color: #4a4a4a !important;
+  }
+  .modal-specs strong, .modal-specs b {
+    color: #a89a80 !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    font-size: 10px !important;
+    display: inline-block !important;
+    margin-right: 6px !important;
+  }
+  @media (max-width: 480px) {
+    .modal-specs { gap: 4px 12px !important; font-size: 11px !important; }
+  }
+
+  /* --- Quote section labels in PDP: brand color, not slate --- */
+  .quote-section-title, .quote-section-label {
+    color: #1d3045 !important;
+    letter-spacing: 2px !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+  }
+  .quote-help { color: #687177 !important; }
+
+  /* --- Modal CTA bar: light theme, no navy --- */
+  .modal-cta-bar {
+    background: #faf8f4 !important;
+    border-top: 1px solid #e8e0d0 !important;
+  }
+  .modal-cta-heading {
+    color: #1d3045 !important;
+    letter-spacing: 2px !important;
+    font-weight: 600 !important;
+  }
+  .modal-cta-microcopy { color: #687177 !important; }
+
+  /* --- Photo gallery colors --- */
+  .photo-main { background: #faf8f4 !important; }
+  .photo-thumb { background: #faf8f4 !important; border-color: #e8e0d0 !important; }
+  .photo-thumb.active { border-color: #c8a24a !important; }
+  .photo-gallery-note { color: #687177 !important; }
+
+  /* --- Quote items list palette override --- */
+  .quote-items-list {
+    border: 1px solid #e8e0d0 !important;
+    background: #ffffff !important;
+    border-radius: 4px !important;
+  }
+  .quote-item {
+    border-bottom: 1px solid #f0ead9 !important;
+    padding: 14px 16px !important;
+    gap: 14px !important;
+    background: #ffffff !important;
+  }
+  .quote-item-img { background: #faf8f4 !important; }
+  .quote-item-name { color: #1d3045 !important; }
+  .quote-item-meta { color: #a89a80 !important; letter-spacing: 1.2px !important; text-transform: uppercase !important; font-size: 10px !important; }
+  .quote-item-remove {
+    color: #c8424f !important;
+    font-size: 22px !important;
+    font-weight: 300 !important;
+    padding: 4px 10px !important;
+  }
+
+  /* --- Quote form palette --- */
+  .quote-form label {
+    color: #a89a80 !important;
+    letter-spacing: 1.8px !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+  }
+  .quote-form input, .quote-form textarea {
+    background: #ffffff !important;
+    border: 1px solid #d6d2c7 !important;
+    color: #1a1a1a !important;
+  }
+  .quote-form input:focus, .quote-form textarea:focus {
+    border-color: #c8a24a !important;
+    outline: none !important;
+  }
+
+  /* --- Variant tabs (product family) palette override --- */
+  .variant-tabs-wrap {
+    background: #faf8f4 !important;
+    border: 1px solid #e8e0d0 !important;
+  }
+  .variant-tabs-title { color: #a89a80 !important; letter-spacing: 2px !important; }
+  .variant-tab {
+    background: #ffffff !important;
+    border: 1px solid #e8e0d0 !important;
+    color: #1a1a1a !important;
+  }
+  .variant-tab:hover {
+    background: #faf8f4 !important;
+    border-color: #c8a24a !important;
+  }
+  .variant-tab.active {
+    background: #ffffff !important;
+    border-color: #c8a24a !important;
+    box-shadow: 0 0 0 1px #c8a24a inset !important;
+  }
+  .variant-tab-name { color: #1d3045 !important; }
+  .variant-tab.active .variant-tab-name { color: #1d3045 !important; }
+  .variant-tab-label { color: #687177 !important; }
+  .variant-hint { color: #687177 !important; }
 </style>
 </head>
 <body>
@@ -2087,6 +2450,14 @@
       </button>
     </div>
   </div>
+    <div class="trust-band">
+  <div class="trust-band-inner">
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Trade pricing for contractors</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>Quotes within 24 business hours</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg> <span>Best Prices · Best Quality</span></span>
+    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg> <span>NY / NJ delivery</span></span>
+  </div>
+</div>
 </div>
 
 <div class="category-toggle-bar">
@@ -2116,14 +2487,7 @@
 
 
 
-<div class="trust-band">
-  <div class="trust-band-inner">
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> <span>Trade pricing for contractors</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>Quotes within 24 business hours</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg> <span>Best Prices · Best Quality</span></span>
-    <span class="trust-item"><svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg> <span>NY / NJ delivery</span></span>
-  </div>
-</div>
+
 
 <div class="container">
   <div class="stats-bar" id="statsBar"></div>
@@ -2557,6 +2921,13 @@ function openModal(sku) {
       ctaBar +
     '</div>';
   document.getElementById("modalBackdrop").classList.add("open");
+  // Force PDP scroll to top so product title is always the first thing seen
+  requestAnimationFrame(() => {
+    const ms = document.querySelector("#modal .modal-scroll");
+    if (ms) { ms.scrollTop = 0; }
+    const mb = document.getElementById("modalBackdrop");
+    if (mb) { mb.scrollTop = 0; }
+  });
   document.getElementById("modalCloseBtn").onclick = closeModal;
   // Reset scroll to top so the PDP always opens with the hero fully visible
   const scrollContainer = document.querySelector("#modal .modal-scroll");
@@ -2659,10 +3030,6 @@ function openQuoteBuilder() {
         '<div class="quote-item-info">' +
           '<div class="quote-item-name">'+it.name+'</div>' +
           '<div class="quote-item-meta">'+it.collection+'</div>' +
-        '</div>' +
-        '<div class="quote-item-qty">' +
-          '<input type="number" min="1" step="1" value="'+it.qty+'" data-sku="'+it.sku+'" data-field="qty">' +
-          '<select data-sku="'+it.sku+'" data-field="unit">'+unitOpts+'</select>' +
         '</div>' +
         '<button class="quote-item-remove" data-remove="'+it.sku+'" title="Remove">&times;</button>' +
       '</div>';
