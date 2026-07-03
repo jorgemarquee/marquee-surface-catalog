@@ -2785,6 +2785,47 @@
       border-radius: 6px !important;
     }
   }
+
+  /* iOS Safari-specific scroll fixes for mobile PDP */
+  @media (max-width: 768px) {
+    /* Use dvh (dynamic viewport height) to handle iOS chrome bar changes */
+    #modal {
+      max-height: 100dvh !important;
+      max-height: 100vh !important; /* fallback */
+      height: 100dvh !important;
+      height: 100vh !important;
+    }
+    
+    /* Modal-scroll: prevent rubber-band, use touch-scrolling, ensure padding-bottom for safe area */
+    #modal .modal-scroll {
+      padding-top: 12px !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)) !important;
+      overflow-y: scroll !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior-y: contain !important;
+      overscroll-behavior-x: none !important;
+      touch-action: pan-y !important;
+    }
+    
+    /* CTA bar: ensure it doesn't get cut off, extra bottom margin for safe area */
+    #modal .modal-cta-bar {
+      margin-top: 20px !important;
+      margin-bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+      padding: 20px 20px 24px !important;
+      border-radius: 8px !important;
+    }
+    
+    /* Ensure Add button has room to breathe */
+    #modal .modal-cta-add {
+      width: 100% !important;
+      padding: 16px 20px !important;
+      font-size: 15px !important;
+      min-height: 52px !important;
+      font-weight: 600 !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3314,8 +3355,6 @@ function openModal(sku) {
   };
   resetScroll();
   requestAnimationFrame(resetScroll);
-  setTimeout(resetScroll, 50);
-  setTimeout(resetScroll, 200);
   document.getElementById("modalCloseBtn").onclick = closeModal;
   const backBtn = document.getElementById("modalBackBtn");
   if (backBtn) backBtn.onclick = closeModal;
