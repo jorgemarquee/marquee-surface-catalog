@@ -2071,13 +2071,15 @@
   /* --- Header compacto + logo dimensions --- */
   @media (max-width: 768px) {
     .header {
-      padding: 14px 16px 10px !important;
+      padding: 10px 16px 4px !important;
     }
+    .header-inner { gap: 2px !important; }
+    .brand-block { gap: 2px !important; padding: 0 !important; margin: 0 !important; }
     .header::before { height: 3px !important; }
     .brand-logo {
-      max-height: 52px !important;
+      max-height: 68px !important;
       height: auto !important;
-      max-width: 25vw !important;
+      max-width: 55vw !important;
       width: auto !important;
     }
     .brand-block { gap: 4px !important; }
@@ -2121,14 +2123,28 @@
   @media (max-width: 768px) {
     .trust-band { padding: 6px 12px !important; margin-top: 6px !important; }
     .trust-band-inner {
-      display: flex !important;
-      grid-template-columns: unset !important;
-      overflow-x: auto !important;
-      flex-wrap: nowrap !important;
-      gap: 12px !important;
-      font-size: 9px !important;
-      justify-content: flex-start !important;
-      padding-bottom: 2px !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 4px 12px !important;
+      overflow: visible !important;
+      flex-wrap: initial !important;
+      font-size: 9.5px !important;
+      justify-content: initial !important;
+      padding: 4px 4px !important;
+      max-width: 360px !important;
+      margin: 0 auto !important;
+      letter-spacing: 1px !important;
+    }
+    .trust-band-inner > * {
+      display: flex; align-items: center; gap: 4px;
+      min-width: 0;
+      justify-content: flex-start;
+    }
+    .trust-band-inner span {
+      overflow: visible !important;
+      text-overflow: initial !important;
+      white-space: normal !important;
+      line-height: 1.2 !important;
     }
     .trust-item { font-size: 9px !important; letter-spacing: 1px !important; }
     .trust-icon { width: 10px !important; height: 10px !important; }
@@ -2234,7 +2250,7 @@
     border: 1px solid #e8e0d0 !important;
     color: #1a1a1a !important;
   }
-  .modal-scroll { background: #ffffff !important; padding-top: 44px !important; }
+  .modal-scroll { background: #ffffff !important; padding-top: 24px !important; }
   .modal h2 {
     color: #1d3045 !important;
     font-size: 22px !important;
@@ -2426,6 +2442,84 @@
   .variant-tab.active .variant-tab-name { color: #1d3045 !important; }
   .variant-tab-label { color: #687177 !important; }
   .variant-hint { color: #687177 !important; }
+
+  /* Breadcrumb bar removed per Noya feedback — redundant with toggle + contextual title */
+  .breadcrumb-bar { display: none !important; }
+
+  /* PDP Back button — prominent, left side */
+  .modal-back {
+    position: absolute !important;
+    top: 12px !important;
+    left: 12px !important;
+    background: #ffffff !important;
+    border: 1px solid #e8e0d0 !important;
+    color: #1d3045 !important;
+    padding: 8px 14px 8px 10px !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    z-index: 100 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    font-family: inherit !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    transition: all 0.15s ease !important;
+    height: 38px !important;
+  }
+  .modal-back:hover {
+    background: #1d3045 !important;
+    color: #ffffff !important;
+    border-color: #1d3045 !important;
+  }
+  .modal-back svg { flex-shrink: 0; }
+  @media (max-width: 768px) {
+    .modal-back { padding: 6px 12px 6px 8px !important; font-size: 11px !important; height: 34px !important; }
+    .modal-back span { display: inline; }
+  }
+
+  /* Hide redundant section-title + section-sub since contextual-title-bar covers this info */
+  #phase2Section > .section-title,
+  #phase2Section > .section-sub,
+  #phase1Section > .section-title,
+  #phase1Section > .section-sub {
+    display: none !important;
+  }
+  /* Also hide the .filters bar (color dropdown) — will be replaced by editorial filter in next iteration */
+  #phase2Section > .filters,
+  #phase1Section > .filters {
+    display: none !important;
+  }
+
+  /* PDP title clearance for back button and close X */
+  #modal .modal-scroll h2 {
+    padding-left: 110px !important;
+    padding-right: 56px !important;
+    min-height: 40px !important;
+  }
+  @media (max-width: 768px) {
+    #modal .modal-scroll h2 {
+      padding-left: 100px !important;
+      padding-right: 52px !important;
+    }
+  }
+  /* Reduce modal-scroll top padding since h2 now has its own min-height */
+  #modal .modal-scroll { padding-top: 16px !important; }
+  @media (max-width: 768px) {
+    #modal .modal-scroll { padding-top: 12px !important; }
+  }
+  /* Also add left padding to the category subtitle so it aligns with h2 */
+  #modal .modal-scroll .modal-sub {
+    padding-left: 110px !important;
+  }
+  @media (max-width: 768px) {
+    #modal .modal-scroll .modal-sub {
+      padding-left: 100px !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -2869,6 +2963,7 @@ function openModal(sku) {
   galleryIndex = 0;
   const p = products.find(x => x.sku === sku);
   if (!p) return;
+  window.__currentPdpSku = sku;  // Track for state refresh on inquiry close
   window.__setLightboxProduct(p);
   const so = soldOutSet.has(sku);
   const inCart = !!quoteCart[sku];
@@ -2899,6 +2994,7 @@ function openModal(sku) {
   );
 
   document.getElementById("modal").innerHTML =
+    '<button class="modal-back" id="modalBackBtn" aria-label="Back to catalog"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span>Back</span></button>' +
     '<button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>' +
     '<div class="modal-scroll">' +
       '<h2>'+p.name+'</h2>' +
@@ -2921,14 +3017,22 @@ function openModal(sku) {
       ctaBar +
     '</div>';
   document.getElementById("modalBackdrop").classList.add("open");
-  // Force PDP scroll to top so product title is always the first thing seen
-  requestAnimationFrame(() => {
+  // Force PDP scroll to top: immediate + rAF + delayed for iOS Safari + focus title
+  const resetScroll = () => {
     const ms = document.querySelector("#modal .modal-scroll");
     if (ms) { ms.scrollTop = 0; }
     const mb = document.getElementById("modalBackdrop");
     if (mb) { mb.scrollTop = 0; }
-  });
+    const md = document.getElementById("modal");
+    if (md) { md.scrollTop = 0; }
+  };
+  resetScroll();
+  requestAnimationFrame(resetScroll);
+  setTimeout(resetScroll, 50);
+  setTimeout(resetScroll, 200);
   document.getElementById("modalCloseBtn").onclick = closeModal;
+  const backBtn = document.getElementById("modalBackBtn");
+  if (backBtn) backBtn.onclick = closeModal;
   // Reset scroll to top so the PDP always opens with the hero fully visible
   const scrollContainer = document.querySelector("#modal .modal-scroll");
   if (scrollContainer) scrollContainer.scrollTop = 0;
@@ -2981,7 +3085,7 @@ function openModal(sku) {
   const rmBtn = document.getElementById("removeFromQuoteBtn");
   if (rmBtn) rmBtn.onclick = () => removeFromQuote(sku);
 }
-function closeModal() { document.getElementById("modalBackdrop").classList.remove("open"); }
+function closeModal() { document.getElementById("modalBackdrop").classList.remove("open"); window.__currentPdpSku = null; }
 
 function toggleSoldOut(sku) {
   if (!isAdmin) return;
@@ -3059,7 +3163,14 @@ function openQuoteBuilder() {
     body +
     '</div>';
   document.getElementById("quoteBackdrop").classList.add("open");
-  document.getElementById("quoteCloseBtn").onclick = () => document.getElementById("quoteBackdrop").classList.remove("open");
+  document.getElementById("quoteCloseBtn").onclick = () => {
+    document.getElementById("quoteBackdrop").classList.remove("open");
+    // Refresh PDP behind if still open, so Add→Update state reflects current cart
+    const pdpBackdrop = document.getElementById("modalBackdrop");
+    if (pdpBackdrop && pdpBackdrop.classList.contains("open") && window.__currentPdpSku) {
+      openModal(window.__currentPdpSku);
+    }
+  };
   document.querySelectorAll('[data-remove]').forEach(b => {
     b.onclick = () => { removeFromQuote(b.dataset.remove); openQuoteBuilder(); };
   });
