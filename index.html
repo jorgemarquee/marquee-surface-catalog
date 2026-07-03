@@ -3120,26 +3120,19 @@
      BATCH 2 · Tier 2 Mobile Operational Friction
      ============================================================ */
   
-  /* Item 5: Single column @ portrait mobile < 480px */
+  /* Mobile portrait: 2 columns (reverted from single-column per Jorge feedback) */
   @media (max-width: 479px) {
     #slabsGrid, #heroGrid,
     .slabs-grid, .hero-grid {
-      grid-template-columns: 1fr !important;
-      gap: 16px !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px !important;
       padding: 0 12px !important;
     }
-    .slab-card, .hero-card {
-      max-width: 100% !important;
-    }
-    .slab-card-img, .hero-card-img {
-      aspect-ratio: 4/3 !important;
-    }
     .slab-card-name, .hero-card-name {
-      font-size: 15px !important;
-      padding-top: 12px !important;
+      font-size: 13px !important;
     }
     .slab-card-info, .hero-card-info {
-      padding: 12px 14px !important;
+      padding: 10px 12px !important;
     }
   }
 
