@@ -2870,6 +2870,44 @@
       padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px)) !important;
     }
   }
+
+  /* ============================================================
+     AGGRESSIVE iOS SCROLL FIX — pixel-based sizing + massive padding
+     ============================================================ */
+  @media (max-width: 768px) {
+    /* Remove transform-based animations — they break scroll on iOS */
+    #modal {
+      animation: none !important;
+      transform: none !important;
+      will-change: auto !important;
+    }
+    
+    /* modal-scroll: massive bottom padding + explicit props for iOS */
+    #modal .modal-scroll {
+      padding-bottom: calc(180px + env(safe-area-inset-bottom, 34px)) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      overscroll-behavior: contain !important;
+      touch-action: pan-y !important;
+      /* Force GPU compositing without breaking scroll */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
+    
+    /* Scroll-ensurer: invisible spacer at end guarantees CTA reachable */
+    .pdp-scroll-ensurer {
+      height: 120px !important;
+      width: 100%;
+      display: block;
+      background: transparent;
+      pointer-events: none;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .pdp-scroll-ensurer { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -3386,6 +3424,7 @@ function openModal(sku) {
       '<div class="quote-help">Estimated quantities only — final pricing and stock confirmation by Marquee Surface team.</div>' +
       (isAdmin ? '<div style="margin-top:18px;text-align:right;"><button class="btn '+(so?"btn-admin":"")+'" id="toggleSoldOutBtn">'+(so ? "Mark as Available" : "Mark as Sold Out")+'</button></div>' : "") +
       ctaBar +
+      '<div class="pdp-scroll-ensurer" aria-hidden="true"></div>' +
     '</div>';
   (() => {
     const scrollY = window.scrollY;
@@ -3394,6 +3433,28 @@ function openModal(sku) {
     document.body.classList.add("modal-open");
   })();
   document.getElementById("modalBackdrop").classList.add("open");
+  // Force pixel-exact modal height on mobile to work around iOS vh unreliability
+  const setModalHeight = () => {
+    if (window.innerWidth <= 768) {
+      const modal = document.getElementById("modal");
+      if (modal) {
+        modal.style.height = window.innerHeight + "px";
+        modal.style.maxHeight = window.innerHeight + "px";
+        modal.style.minHeight = window.innerHeight + "px";
+      }
+    }
+  };
+  setModalHeight();
+  // Recalculate on resize (iOS URL bar retraction) and orientation change
+  if (!window.__marqueeModalResizeHandler) {
+    window.__marqueeModalResizeHandler = () => {
+      if (document.getElementById("modalBackdrop")?.classList.contains("open")) {
+        setModalHeight();
+      }
+    };
+    window.addEventListener("resize", window.__marqueeModalResizeHandler);
+    window.addEventListener("orientationchange", window.__marqueeModalResizeHandler);
+  }
   // Force PDP scroll to top: immediate + rAF + delayed for iOS Safari + focus title
   const resetScroll = () => {
     const ms = document.querySelector("#modal .modal-scroll");
