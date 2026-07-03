@@ -2714,6 +2714,77 @@
     .flooring-filter-select { min-width: 0; width: 100%; font-size: 12px; padding: 8px 30px 8px 12px; }
     .flooring-filter-label { font-size: 9px; letter-spacing: 1.5px; }
   }
+
+  /* Full-height scrollable PDP — no sticky CTA, natural scroll top-to-bottom */
+  #modal {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    max-height: 95vh !important;
+    max-height: 95dvh !important;
+    height: 95vh !important;
+    height: 95dvh !important;
+    max-width: 780px !important;
+    width: 100% !important;
+    background: #ffffff !important;
+  }
+  #modal .modal-scroll {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 24px 28px 32px !important;
+    background: #ffffff !important;
+  }
+  /* CTA bar no longer sticky — sits at end of scrollable content */
+  #modal .modal-cta-bar {
+    position: static !important;
+    background: #faf8f4 !important;
+    border-top: 1px solid #e8e0d0 !important;
+    border-radius: 6px !important;
+    padding: 20px 22px 22px !important;
+    margin-top: 24px !important;
+    flex: none !important;
+  }
+  #modal .modal-cta-heading {
+    color: #1d3045 !important;
+    letter-spacing: 2px !important;
+    font-weight: 600 !important;
+    margin-bottom: 12px !important;
+  }
+  #modal .modal-cta-add {
+    width: 100% !important;
+    padding: 16px 20px !important;
+    font-size: 15px !important;
+    min-height: 52px !important;
+    font-weight: 600 !important;
+  }
+  #modal .modal-cta-microcopy {
+    color: #687177 !important;
+    margin-top: 12px !important;
+    font-size: 12px !important;
+  }
+  
+  /* Mobile: fullscreen but same scroll pattern (no sticky) */
+  @media (max-width: 768px) {
+    #modal {
+      max-height: 100vh !important;
+      max-height: 100dvh !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      border-radius: 0 !important;
+    }
+    #modal .modal-scroll {
+      padding: 16px 18px 24px !important;
+    }
+    #modal .modal-cta-bar {
+      padding: 18px 20px 22px !important;
+      margin-top: 20px !important;
+      border-radius: 6px !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3229,8 +3300,8 @@ function openModal(sku) {
       '</div>' +
       '<div class="quote-help">Estimated quantities only — final pricing and stock confirmation by Marquee Surface team.</div>' +
       (isAdmin ? '<div style="margin-top:18px;text-align:right;"><button class="btn '+(so?"btn-admin":"")+'" id="toggleSoldOutBtn">'+(so ? "Mark as Available" : "Mark as Sold Out")+'</button></div>' : "") +
-    '</div>' +
-    ctaBar;
+      ctaBar +
+    '</div>';
   document.getElementById("modalBackdrop").classList.add("open");
   // Force PDP scroll to top: immediate + rAF + delayed for iOS Safari + focus title
   const resetScroll = () => {
