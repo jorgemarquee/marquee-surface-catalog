@@ -3906,8 +3906,11 @@ function stockBadge(p) {
 }
 
 function firstPhoto(p) {
+  // Homepage grid + search + Inquiry cart show the LAST photo (stone/slab flat shot per Kathia's naming convention).
+  // PDP hero is unaffected: buildGalleryHero uses photos[galleryIndex] directly, starting at index 0 (lifestyle).
+  if (p.photos && p.photos.length > 0) return p.photos[p.photos.length - 1];
   if (p.thumb) return p.thumb;
-  return p.photos && p.photos.length > 0 ? p.photos[0] : null;
+  return null;
 }
 
 function renderHero() {
