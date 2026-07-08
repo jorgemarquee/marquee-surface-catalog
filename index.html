@@ -4089,6 +4089,10 @@ function defaultUnit(p) {
 function buildGalleryHero(p) {
   const photos = p.photos || [];
   if (photos.length === 0) {
+    // If only thumb_grid exists, display it as sole PDP image
+    if (p.thumb_grid) {
+      return '<div class="photo-gallery photo-gallery-hero"><div class="photo-main"><img src="'+p.thumb_grid+'" alt="'+p.name+'" id="galleryMain"></div></div>';
+    }
     return '<div class="photo-gallery">' +
       '<div class="photo-main"><div class="photo-main-placeholder">No photo available · contact for sample</div></div>' +
     '</div>';
@@ -4668,7 +4672,7 @@ function switchView(view) {
     ctaToTiles.style.display = "none";
     tilesSection.style.display = "";
     ctaBack.style.display = "";
-    updateBreadcrumb("Flooring", "Tiles", "Porcelain Tiles", "");
+    updateBreadcrumb("Flooring", "Tiles", "", "");
   } else {
     slabsSection.style.display = "";
     ctaToTiles.style.display = "";
@@ -4880,6 +4884,7 @@ function updateBreadcrumb(category, sub, title, meta) {
   const crumbSubSep = document.getElementById("crumbSubSep");
   const contextTitle = document.getElementById("contextualTitle");
   const contextMeta = document.getElementById("contextualMeta");
+  const contextBar = document.querySelector(".contextual-title-bar");
   if (crumbCat) crumbCat.textContent = category;
   if (sub) {
     if (crumbSub) { crumbSub.textContent = sub; crumbSub.style.display = ""; }
@@ -4887,6 +4892,10 @@ function updateBreadcrumb(category, sub, title, meta) {
   } else {
     if (crumbSub) crumbSub.style.display = "none";
     if (crumbSubSep) crumbSubSep.style.display = "none";
+  }
+  // Hide contextual title bar entirely when title is empty
+  if (contextBar) {
+    contextBar.style.display = (title && title.trim()) ? "" : "none";
   }
   if (contextTitle) contextTitle.textContent = title;
   if (contextMeta) contextMeta.textContent = meta;
