@@ -15,7 +15,7 @@
 <title>Marquee Surface Catalog July 2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { background: #0a0e1a; }
+  html, body { background: #0a0e1a; overflow-x: hidden; max-width: 100vw; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #e8e8e8;
@@ -2155,7 +2155,7 @@
     padding: 12px 24px !important;
   }
   @media (max-width: 768px) {
-    .category-toggle-bar { padding: 10px 16px !important; }
+    .category-toggle-bar { padding: 24px 24px 8px !important; }
   }
 
   /* --- Breadcrumb bar compacto --- */
@@ -3936,7 +3936,7 @@ function renderSlabs() {
     const so = soldOutSet.has(p.sku);
     const photo = firstPhoto(p);
     const img = photo
-      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy">'
+      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy" decoding="async">'
       : '<div class="slab-img-placeholder"><span class="placeholder-icon">◈</span><span class="placeholder-name">'+p.name+'</span><span class="placeholder-sub">Sample coming soon</span></div>';
     const featuredBadge = p.featured ? '<div class="featured-badge">Featured</div>' : '';
     const photoCount = (p.photos || []).length;
@@ -3970,7 +3970,7 @@ function renderPanels() {
     const so = soldOutSet.has(p.sku);
     const photo = firstPhoto(p);
     const img = photo
-      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy">'
+      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy" decoding="async">'
       : '<div class="slab-img-placeholder"><span class="placeholder-icon">◈</span><span class="placeholder-name">'+p.name+'</span></div>';
     const topSellerBadge = (p.features || []).includes("Top Seller") ? '<div class="top-seller-badge">Top Seller</div>' : '';
     return '<div class="hero-card" data-sku="'+p.sku+'" onclick="openModal(\''+p.sku+'\')">' +
@@ -4003,6 +4003,14 @@ function renderHero() {
   };
   
   const heroes = products.filter(p => matchesSubcat(p) && matchesSize(p) && matches(p, f));
+
+  // Stable sort: Top Seller products first, everything else keeps original CATALOG order
+  heroes.sort((a, b) => {
+    const topA = (a.features || []).includes("Top Seller") ? 0 : 1;
+    const topB = (b.features || []).includes("Top Seller") ? 0 : 1;
+    if (topA !== topB) return topA - topB;
+    return 0;
+  });
   
   // Update section title
   const titleEl = document.querySelector('#phase1Section .section-title');
@@ -4020,7 +4028,7 @@ function renderHero() {
     const so = soldOutSet.has(p.sku);
     const photo = firstPhoto(p);
     const img = photo
-      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy">'
+      ? '<img src="'+photo+'" alt="'+p.name+'" loading="lazy" decoding="async">'
       : '<div class="slab-img-placeholder"><span class="placeholder-icon">◈</span><span class="placeholder-name">'+p.name+'</span><span class="placeholder-sub">Sample coming soon</span></div>';
     const photoCount = (p.photos || []).length;
     const countBadge = photoCount > 0 ? '<span class="photo-count-badge"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>' + photoCount + '</span>' : '';
@@ -4145,7 +4153,7 @@ function buildGalleryHero(p) {
       '<div class="photo-main"><div class="photo-main-placeholder">No photo available · contact for sample</div></div>' +
     '</div>';
   }
-  const mainImg = '<img src="'+photos[galleryIndex]+'" alt="'+p.name+'" id="galleryMain">';
+  const mainImg = '<img src="'+photos[galleryIndex]+'" alt="'+p.name+'" id="galleryMain" decoding="async" fetchpriority="high">';
   return '<div class="photo-gallery photo-gallery-hero"><div class="photo-main">'+mainImg+'</div></div>';
 }
 
@@ -4155,7 +4163,7 @@ function buildGalleryThumbs(p) {
   if (photos.length <= 1) return "";
   const thumbs = '<div class="photo-thumbs">' + photos.map((ph, i) =>
     '<div class="photo-thumb '+(i===galleryIndex?'active':'')+'" data-photo-idx="'+i+'">' +
-      '<img src="'+ph+'" alt="">' +
+      '<img src="'+ph+'" alt="" loading="lazy" decoding="async">' +
     '</div>'
   ).join("") + '</div>';
   return '<div class="photo-thumbs-section">' +
@@ -4456,7 +4464,7 @@ function openQuoteBuilder() {
       const p = products.find(x => x.sku === it.sku);
       const photo = p ? firstPhoto(p) : null;
       const thumb = photo
-        ? '<img src="'+photo+'">'
+        ? '<img src="'+photo+'" loading="lazy" decoding="async">'
         : '<div class="quote-item-img-placeholder">'+it.name+'</div>';
       const unitOpts = ["boxes","sqft","slabs","pieces"].map(u =>
         '<option value="'+u+'"'+(u===it.unit?' selected':'')+'>'+u+'</option>'
@@ -5016,7 +5024,7 @@ if (typeof updateBreadcrumb === "function") {
     results.innerHTML = matches.map(p => {
       const photo = firstPhoto(p);
       const img = photo
-        ? '<img src="' + photo + '" alt="' + p.name + '">'
+        ? '<img src="' + photo + '" alt="' + p.name + '" loading="lazy" decoding="async">'
         : '<div class="search-result-placeholder">' + p.name.substring(0, 2) + '</div>';
       return '<button class="search-result" data-sku="' + p.sku + '">' +
         '<div class="search-result-thumb">' + img + '</div>' +
