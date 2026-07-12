@@ -5100,12 +5100,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const quoteBd = document.getElementById("quoteBackdrop");
   if (modalBd) {
     modalBd.addEventListener("click", (e) => {
-      if (e.target === modalBd) modalBd.classList.remove("open");
+      if (e.target === modalBd) closeModal();
     });
   }
   if (quoteBd) {
     quoteBd.addEventListener("click", (e) => {
-      if (e.target === quoteBd) quoteBd.classList.remove("open");
+      if (e.target === quoteBd) {
+        const qc = document.getElementById("quoteCloseBtn");
+        if (qc) qc.click(); else quoteBd.classList.remove("open");
+      }
     });
   }
 });
@@ -6096,31 +6099,47 @@ function refreshVariantUI(p) {
 }
 
 function filterGalleryByVariant(p) {
-  // Placeholder: when Kathia provides variant-specific photo mapping,
-  // filter the thumbs and hero to show only relevant photos.
-  // For now: display all photos (fallback to branded placeholder when empty).
+  // Show only the photo(s) that belong to the selected face/surface.
+  // Precision order: filename "-FACE-SURFACE-", then "-FACE-", then variant.photos_indexes,
+  // then (nothing distinguishes this variant) show all.
   const cv = window.__currentVariant;
   if (!cv || !p.variants) return;
   const variant = findVariant(p, cv.face, cv.surface);
   if (!variant) return;
-  
-  // If variant has photos_indexes populated with specific indices, filter
-  if (variant.photos_indexes && variant.photos_indexes.length > 0 && variant.photos_indexes.length < (p.photos?.length || 0)) {
-    // Filter thumbnails
-    const thumbs = document.querySelectorAll('#modal .photo-thumb');
-    thumbs.forEach(function(thumb, idx) {
-      thumb.style.display = variant.photos_indexes.includes(idx) ? '' : 'none';
-    });
-    // Update hero to first allowed photo if current isn't in list
-    if (galleryIndex !== undefined && !variant.photos_indexes.includes(galleryIndex)) {
-      const firstAllowed = variant.photos_indexes[0];
-      galleryIndex = firstAllowed;
-      const hero = document.getElementById('galleryMain');
-      if (hero && p.photos[firstAllowed]) {
-        hero.src = p.photos[firstAllowed];
-      }
-    }
+  const photos = p.photos || [];
+  if (!photos.length) return;
+
+  const idxAll = photos.map(function(_, i) { return i; });
+  let allowed = [];
+
+  if (cv.face && cv.surface) {
+    const t = '-' + cv.face + '-' + cv.surface + '-';
+    allowed = idxAll.filter(function(i) { return photos[i].indexOf(t) !== -1; });
   }
+  if (allowed.length === 0 && cv.face) {
+    const t = '-' + cv.face + '-';
+    allowed = idxAll.filter(function(i) { return photos[i].indexOf(t) !== -1; });
+  }
+  if (allowed.length === 0 && Array.isArray(variant.photos_indexes)) {
+    allowed = variant.photos_indexes.filter(function(i) { return i >= 0 && i < photos.length; });
+  }
+  if (allowed.length === 0) allowed = idxAll;
+
+  // Toggle thumbnails
+  document.querySelectorAll('#modal .photo-thumb').forEach(function(thumb) {
+    const idx = parseInt(thumb.dataset.photoIdx, 10);
+    thumb.style.display = allowed.indexOf(idx) !== -1 ? '' : 'none';
+  });
+  // Hero: switch to first allowed photo if the current one is not part of this variant
+  if (allowed.indexOf(galleryIndex) === -1) {
+    galleryIndex = allowed[0];
+    const hero = document.getElementById('galleryMain');
+    if (hero && photos[galleryIndex]) hero.src = photos[galleryIndex];
+  }
+  // Keep the active thumbnail highlight in sync
+  document.querySelectorAll('#modal .photo-thumb').forEach(function(thumb) {
+    thumb.classList.toggle('active', parseInt(thumb.dataset.photoIdx, 10) === galleryIndex);
+  });
 }
 
 // Global click handler for variant selectors
